@@ -31,8 +31,7 @@ public class Demo {
         // цепи, используя одни и те же компоненты.
         Middleware middleware = Middleware.link(
             new ThrottlingMiddleware(2),
-            new UserExistsMiddleware(server),
-            new RoleCheckMiddleware()
+            new UserExistsMiddleware(server)
         );
 
         // EN: Server gets a chain from client code.
