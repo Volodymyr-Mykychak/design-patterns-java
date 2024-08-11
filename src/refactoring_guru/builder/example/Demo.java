@@ -24,7 +24,7 @@ public class Demo {
         // (приложения). Приложение само знает какой строитель использовать,
         // чтобы получить нужный продукт.
         CarBuilder builder = new CarBuilder();
-        director.constructSportsCar(builder);
+
 
         // EN: The final product is often retrieved from a builder object, since
         // Director is not aware and not dependent on concrete builders and
@@ -32,8 +32,8 @@ public class Demo {
         //
         // RU: Готовый продукт возвращает строитель, так как Директор чаще всего
         // не знает и не зависит от конкретных классов строителей и продуктов.
-        Car car = builder.getResult();
-        System.out.println("Car built:\n" + car.getCarType());
+
+
 
 
         CarManualBuilder manualBuilder = new CarManualBuilder();
@@ -41,7 +41,7 @@ public class Demo {
         // EN: Director may know several building recipes.
         //
         // RU: Директор может знать больше одного рецепта строительства.
-        director.constructSportsCar(manualBuilder);
+
         Manual carManual = manualBuilder.getResult();
         System.out.println("\nCar manual built:\n" + carManual.print());
     }
