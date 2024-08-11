@@ -30,19 +30,19 @@ public class Editor {
         ctrlC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                executeCommand(new CopyCommand(editor));
+
             }
         });
         ctrlX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                executeCommand(new CutCommand(editor));
+
             }
         });
         ctrlV.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                executeCommand(new PasteCommand(editor));
+
             }
         });
         ctrlZ.addActionListener(new ActionListener() {
