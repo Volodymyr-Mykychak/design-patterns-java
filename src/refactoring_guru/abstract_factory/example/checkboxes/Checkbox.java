@@ -8,5 +8,4 @@ package refactoring_guru.abstract_factory.example.checkboxes;
  * и кнопки.
  */
 public interface Checkbox {
-    void paint();
 }

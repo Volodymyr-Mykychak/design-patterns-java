@@ -9,10 +9,5 @@ package refactoring_guru.abstract_factory.example.buttons;
  *
  * Это вариант кнопки под MacOS.
  */
-public class MacOSButton implements Button {
-
-    @Override
-    public void paint() {
-        System.out.println("You have created MacOSButton.");
-    }
+public class MacOSButton {
 }

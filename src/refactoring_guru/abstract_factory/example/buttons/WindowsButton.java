@@ -9,10 +9,6 @@ package refactoring_guru.abstract_factory.example.buttons;
  *
  * Это вариант кнопки под Windows.
  */
-public class WindowsButton implements Button {
+public class WindowsButton {
 
-    @Override
-    public void paint() {
-        System.out.println("You have created WindowsButton.");
-    }
 }
