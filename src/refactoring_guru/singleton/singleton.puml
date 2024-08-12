@@ -1,0 +1,59 @@
+@startuml
+class refactoring_guru.singleton.example.non_thread_safe.Singleton {
+- {static} Singleton instance
++ String value
+- <<Create>> Singleton(String)
++ {static} Singleton getInstance(String)
+}
+
+
+class refactoring_guru.singleton.example.thread_safe.DemoMultiThread {
++ {static} void main(String[])
+}
+
+class refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadFoo {
++ void run()
+}
+
+class refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadBar {
++ void run()
+}
+
+class refactoring_guru.singleton.example.thread_safe.Singleton {
+- {static} Singleton instance
++ String value
+- <<Create>> Singleton(String)
++ {static} Singleton getInstance(String)
+}
+note left of refactoring_guru.singleton.example.thread_safe.Singleton::instance
+ проверка блокировки сработала как надо.
+end note
+
+
+class refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread {
++ {static} void main(String[])
+}
+
+class refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadFoo {
++ void run()
+}
+
+class refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadBar {
++ void run()
+}
+
+class refactoring_guru.singleton.example.non_thread_safe.DemoSingleThread {
++ {static} void main(String[])
+}
+
+
+
+refactoring_guru.singleton.example.thread_safe.DemoMultiThread +.. refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadFoo
+refactoring_guru.singleton.example.thread_safe.Runnable <|.. refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadFoo
+refactoring_guru.singleton.example.thread_safe.DemoMultiThread +.. refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadBar
+refactoring_guru.singleton.example.thread_safe.Runnable <|.. refactoring_guru.singleton.example.thread_safe.DemoMultiThread$ThreadBar
+refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread +.. refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadFoo
+refactoring_guru.singleton.example.non_thread_safe.Runnable <|.. refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadFoo
+refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread +.. refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadBar
+refactoring_guru.singleton.example.non_thread_safe.Runnable <|.. refactoring_guru.singleton.example.non_thread_safe.DemoMultiThread$ThreadBar
+@enduml

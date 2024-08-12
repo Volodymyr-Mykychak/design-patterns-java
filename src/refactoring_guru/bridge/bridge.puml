@@ -1,0 +1,79 @@
+@startuml
+interface refactoring_guru.bridge.example.remotes.Remote {
+~ void power()
+~ void volumeDown()
+~ void volumeUp()
+~ void channelDown()
+~ void channelUp()
+}
+
+class refactoring_guru.bridge.example.remotes.AdvancedRemote {
++ <<Create>> AdvancedRemote(Device)
++ void mute()
+}
+
+class refactoring_guru.bridge.example.Demo {
++ {static} void main(String[])
++ {static} void testDevice(Device)
+}
+
+class refactoring_guru.bridge.example.devices.Radio {
+- boolean on
+- int volume
+- int channel
++ boolean isEnabled()
++ void enable()
++ void disable()
++ int getVolume()
++ void setVolume(int)
++ int getChannel()
++ void setChannel(int)
++ void printStatus()
+}
+
+
+interface refactoring_guru.bridge.example.devices.Device {
+~ boolean isEnabled()
+~ void enable()
+~ void disable()
+~ int getVolume()
+~ void setVolume(int)
+~ int getChannel()
+~ void setChannel(int)
+~ void printStatus()
+}
+
+class refactoring_guru.bridge.example.devices.Tv {
+- boolean on
+- int volume
+- int channel
++ boolean isEnabled()
++ void enable()
++ void disable()
++ int getVolume()
++ void setVolume(int)
++ int getChannel()
++ void setChannel(int)
++ void printStatus()
+}
+
+
+class refactoring_guru.bridge.example.remotes.BasicRemote {
+# Device device
++ <<Create>> BasicRemote()
++ <<Create>> BasicRemote(Device)
++ void power()
++ void volumeDown()
++ void volumeUp()
++ void channelDown()
++ void channelUp()
+}
+
+
+
+
+refactoring_guru.bridge.example.remotes.BasicRemote <|-- refactoring_guru.bridge.example.remotes.AdvancedRemote
+refactoring_guru.bridge.example.devices.Device <|.. refactoring_guru.bridge.example.devices.Radio
+refactoring_guru.bridge.example.devices.Device <|.. refactoring_guru.bridge.example.devices.Tv
+refactoring_guru.bridge.example.remotes.Remote <|.. refactoring_guru.bridge.example.remotes.BasicRemote
+@enduml

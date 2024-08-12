@@ -1,0 +1,84 @@
+@startuml
+class refactoring_guru.adapter.example.square.SquarePeg {
+- double width
++ <<Create>> SquarePeg(double)
++ double getWidth()
++ double getSquare()
+}
+note top of refactoring_guru.adapter.example.square.SquarePeg
+
+ * EN: SquarePegs are not compatible with RoundHoles (they were implemented by
+ * previous development team). But we have to integrate them into our program.
+ *
+ * RU: КвадратныеКолышки несовместимы с КруглымиОтверстиями (они остались в
+ * проекте после бывших разработчиков). Но мы должны как-то интегрировать их в
+ * нашу систему.
+ 
+end note
+
+
+
+class refactoring_guru.adapter.example.Demo {
++ {static} void main(String[])
+}
+note top of refactoring_guru.adapter.example.Demo
+
+ * EN: Somewhere in client code...
+ *
+ * RU: Где-то в клиентском коде...
+ 
+end note
+
+
+class refactoring_guru.adapter.example.adapters.SquarePegAdapter {
+- SquarePeg peg
++ <<Create>> SquarePegAdapter(SquarePeg)
++ double getRadius()
+}
+note top of refactoring_guru.adapter.example.adapters.SquarePegAdapter
+
+ * EN: Adapter allows fitting square pegs into round holes.
+ *
+ * RU: Адаптер позволяет использовать КвадратныеКолышки и КруглыеОтверстия
+ * вместе.
+ 
+end note
+
+
+
+class refactoring_guru.adapter.example.round.RoundHole {
+- double radius
++ <<Create>> RoundHole(double)
++ double getRadius()
++ boolean fits(RoundPeg)
+}
+note top of refactoring_guru.adapter.example.round.RoundHole
+
+ * EN: RoundHoles are compatible with RoundPegs.
+ *
+ * RU: КруглоеОтверстие совместимо с КруглымиКолышками.
+ 
+end note
+
+
+
+class refactoring_guru.adapter.example.round.RoundPeg {
+- double radius
++ <<Create>> RoundPeg()
++ <<Create>> RoundPeg(double)
++ double getRadius()
+}
+note top of refactoring_guru.adapter.example.round.RoundPeg
+
+ * EN: RoundPegs are compatible with RoundHoles.
+ *
+ * RU: КруглыеКолышки совместимы с КруглымиОтверстиями.
+ 
+end note
+
+
+
+
+
+refactoring_guru.adapter.example.round.RoundPeg <|-- refactoring_guru.adapter.example.adapters.SquarePegAdapter
+@enduml

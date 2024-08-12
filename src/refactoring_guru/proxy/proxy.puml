@@ -1,0 +1,53 @@
+@startuml
+class refactoring_guru.proxy.example.Demo {
++ {static} void main(String[])
+- {static} long test(YouTubeDownloader)
+}
+
+class refactoring_guru.proxy.example.some_cool_media_library.ThirdPartyYouTubeClass {
++ HashMap<String,Video> popularVideos()
++ Video getVideo(String)
+- int random(int,int)
+- void experienceNetworkLatency()
+- void connectToServer(String)
+- HashMap<String,Video> getRandomVideos()
+- Video getSomeVideo(String)
+}
+
+class refactoring_guru.proxy.example.some_cool_media_library.Video {
++ String id
++ String title
++ String data
+~ <<Create>> Video(String,String)
+}
+
+
+class refactoring_guru.proxy.example.downloader.YouTubeDownloader {
+- ThirdPartyYouTubeLib api
++ <<Create>> YouTubeDownloader(ThirdPartyYouTubeLib)
++ void renderVideoPage(String)
++ void renderPopularVideos()
+}
+
+
+class refactoring_guru.proxy.example.proxy.YouTubeCacheProxy {
+- ThirdPartyYouTubeLib youtubeService
+- HashMap<String,Video> cachePopular
+- HashMap<String,Video> cacheAll
++ <<Create>> YouTubeCacheProxy()
++ HashMap<String,Video> popularVideos()
++ Video getVideo(String)
++ void reset()
+}
+
+
+interface refactoring_guru.proxy.example.some_cool_media_library.ThirdPartyYouTubeLib {
+~ HashMap<String,Video> popularVideos()
+~ Video getVideo(String)
+}
+
+
+
+refactoring_guru.proxy.example.some_cool_media_library.ThirdPartyYouTubeLib <|.. refactoring_guru.proxy.example.some_cool_media_library.ThirdPartyYouTubeClass
+refactoring_guru.proxy.example.some_cool_media_library.ThirdPartyYouTubeLib <|.. refactoring_guru.proxy.example.proxy.YouTubeCacheProxy
+@enduml

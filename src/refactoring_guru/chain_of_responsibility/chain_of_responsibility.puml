@@ -1,0 +1,160 @@
+@startuml
+class refactoring_guru.chain_of_responsibility.example.Demo {
+- {static} BufferedReader reader
+- {static} Server server
+- {static} void init()
++ {static} void main(String[])
+}
+note top of refactoring_guru.chain_of_responsibility.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+
+
+class refactoring_guru.chain_of_responsibility.example.middleware.UserExistsMiddleware {
+- Server server
++ <<Create>> UserExistsMiddleware(Server)
++ boolean check(String,String)
+}
+note top of refactoring_guru.chain_of_responsibility.example.middleware.UserExistsMiddleware
+
+ * EN: ConcreteHandler. Checks whether a user with the given credentials exists.
+ *
+ * RU: Конкретный элемент цепи обрабатывает запрос по-своему.
+ 
+end note
+
+
+
+abstract class refactoring_guru.chain_of_responsibility.example.middleware.Middleware {
+- Middleware next
++ {static} Middleware link(Middleware,Middleware)
++ {abstract}boolean check(String,String)
+# boolean checkNext(String,String)
+}
+note top of refactoring_guru.chain_of_responsibility.example.middleware.Middleware
+
+ * EN: Base middleware class.
+ *
+ * RU: Базовый класс цепочки.
+ 
+end note
+
+
+note left of refactoring_guru.chain_of_responsibility.example.middleware.Middleware::link(Middleware,Middleware)
+
+     * EN: Builds chains of middleware objects.
+     *
+     * RU: Помогает строить цепь из объектов-проверок.
+     
+end note
+note right of refactoring_guru.chain_of_responsibility.example.middleware.Middleware::check(String,String)
+
+     * EN: Subclasses will implement this method with concrete checks.
+     *
+     * RU: Подклассы реализуют в этом методе конкретные проверки.
+     
+end note
+note left of refactoring_guru.chain_of_responsibility.example.middleware.Middleware::checkNext(String,String)
+
+     * EN: Runs check on the next object in chain or ends traversing if we're in
+     * last object in chain.
+     *
+     * RU: Запускает проверку в следующем объекте или завершает проверку, если
+     * мы в последнем элементе цепи.
+     
+end note
+
+class refactoring_guru.chain_of_responsibility.example.middleware.ThrottlingMiddleware {
+- int requestPerMinute
+- int request
+- long currentTime
++ <<Create>> ThrottlingMiddleware(int)
++ boolean check(String,String)
+}
+note top of refactoring_guru.chain_of_responsibility.example.middleware.ThrottlingMiddleware
+
+ * EN: ConcreteHandler. Checks whether there are too many failed login requests.
+ *
+ * RU: Конкретный элемент цепи обрабатывает запрос по-своему.
+ 
+end note
+
+
+note left of refactoring_guru.chain_of_responsibility.example.middleware.ThrottlingMiddleware::check(String,String)
+
+     * EN: Please, not that checkNext() call can be inserted both in the
+     * beginning of this method and in the end.
+     *
+     * This gives much more flexibility than a simple loop over all middleware
+     * objects. For instance, an element of a chain can change the order of
+     * checks by running its check after all other checks.
+     *
+     * RU: Обратите внимание, вызов checkNext() можно вставить как в начале
+     * этого метода, так и в середине или в конце.
+     *
+     * Это даёт еще один уровень гибкости по сравнению с проверками в цикле.
+     * Например, элемент цепи может пропустить все остальные проверки вперёд и
+     * запустить свою проверку в конце.
+     
+end note
+
+class refactoring_guru.chain_of_responsibility.example.server.Server {
+- Map<String,String> users
+- Middleware middleware
++ void setMiddleware(Middleware)
++ boolean logIn(String,String)
++ void register(String,String)
++ boolean hasEmail(String)
++ boolean isValidPassword(String,String)
+}
+note top of refactoring_guru.chain_of_responsibility.example.server.Server
+
+ * EN: Server class.
+ *
+ * RU: Класс сервера.
+ 
+end note
+
+
+note left of refactoring_guru.chain_of_responsibility.example.server.Server::setMiddleware(Middleware)
+
+     * EN: Client passes a chain of object to server. This improves flexibility
+     * and makes testing the server class easier.
+     *
+     * RU: Клиент подаёт готовую цепочку в сервер. Это увеличивает гибкость и
+     * упрощает тестирование класса сервера.
+     
+end note
+note right of refactoring_guru.chain_of_responsibility.example.server.Server::logIn(String,String)
+
+     * EN: Server gets email and password from client and sends the
+     * authorization request to the chain.
+     *
+     * RU: Сервер получает email и пароль от клиента и запускает проверку
+     * авторизации у цепочки.
+     
+end note
+
+class refactoring_guru.chain_of_responsibility.example.middleware.RoleCheckMiddleware {
++ boolean check(String,String)
+}
+note top of refactoring_guru.chain_of_responsibility.example.middleware.RoleCheckMiddleware
+
+ * EN: ConcreteHandler. Checks a user's role.
+ *
+ * RU: Конкретный элемент цепи обрабатывает запрос по-своему.
+ 
+end note
+
+
+
+
+refactoring_guru.chain_of_responsibility.example.middleware.Middleware <|-- refactoring_guru.chain_of_responsibility.example.middleware.UserExistsMiddleware
+refactoring_guru.chain_of_responsibility.example.middleware.Middleware <|-- refactoring_guru.chain_of_responsibility.example.middleware.ThrottlingMiddleware
+refactoring_guru.chain_of_responsibility.example.middleware.Middleware <|-- refactoring_guru.chain_of_responsibility.example.middleware.RoleCheckMiddleware
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+class refactoring_guru.command.example.commands.CopyCommand {
++ <<Create>> CopyCommand(Editor)
++ boolean execute()
+}
+
+abstract class refactoring_guru.command.example.commands.Command {
++ Editor editor
+- String backup
+~ <<Create>> Command(Editor)
+~ void backup()
++ void undo()
++ {abstract}boolean execute()
+}
+
+
+class refactoring_guru.command.example.commands.CutCommand {
++ <<Create>> CutCommand(Editor)
++ boolean execute()
+- String cutString(String)
+}
+
+class refactoring_guru.command.example.Demo {
++ {static} void main(String[])
+}
+
+class refactoring_guru.command.example.commands.CommandHistory {
+- Stack<Command> history
++ void push(Command)
++ Command pop()
++ boolean isEmpty()
+}
+
+
+class refactoring_guru.command.example.commands.PasteCommand {
++ <<Create>> PasteCommand(Editor)
++ boolean execute()
+}
+
+class refactoring_guru.command.example.editor.Editor {
++ JTextArea textField
++ String clipboard
+- CommandHistory history
++ void init()
+- void executeCommand(Command)
+- void undo()
+}
+
+
+
+
+refactoring_guru.command.example.commands.Command <|-- refactoring_guru.command.example.commands.CopyCommand
+refactoring_guru.command.example.commands.Command <|-- refactoring_guru.command.example.commands.CutCommand
+refactoring_guru.command.example.commands.Command <|-- refactoring_guru.command.example.commands.PasteCommand
+@enduml
