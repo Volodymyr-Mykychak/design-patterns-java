@@ -1,0 +1,117 @@
+@startuml
+abstract class refactoring_guru.composite.example.shapes.BaseShape {
++ int x
++ int y
++ Color color
+- boolean selected
+~ <<Create>> BaseShape(int,int,Color)
++ int getX()
++ int getY()
++ int getWidth()
++ int getHeight()
++ void move(int,int)
++ boolean isInsideBounds(int,int)
++ void select()
++ void unSelect()
++ boolean isSelected()
+~ void enableSelectionStyle(Graphics)
+~ void disableSelectionStyle(Graphics)
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.composite.example.Demo {
++ {static} void main(String[])
+}
+
+interface refactoring_guru.composite.example.shapes.Shape {
+~ int getX()
+~ int getY()
+~ int getWidth()
+~ int getHeight()
+~ void move(int,int)
+~ boolean isInsideBounds(int,int)
+~ void select()
+~ void unSelect()
+~ boolean isSelected()
+~ void paint(Graphics)
+}
+
+class refactoring_guru.composite.example.shapes.Circle {
++ int radius
++ <<Create>> Circle(int,int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.composite.example.shapes.Dot {
+- int DOT_SIZE
++ <<Create>> Dot(int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.composite.example.shapes.CompoundShape {
+# List<Shape> children
++ <<Create>> CompoundShape(Shape)
++ void add(Shape)
++ void add(Shape)
++ void remove(Shape)
++ void remove(Shape)
++ void clear()
++ int getX()
++ int getY()
++ int getWidth()
++ int getHeight()
++ void move(int,int)
++ boolean isInsideBounds(int,int)
++ void unSelect()
++ boolean selectChildAt(int,int)
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.composite.example.shapes.Rectangle {
++ int width
++ int height
++ <<Create>> Rectangle(int,int,int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.composite.example.editor.ImageEditor {
+- EditorCanvas canvas
+- CompoundShape allShapes
++ <<Create>> ImageEditor()
++ void loadShapes(Shape)
+}
+
+
+class refactoring_guru.composite.example.editor.ImageEditor$EditorCanvas {
+~ JFrame frame
+- {static} int PADDING
+~ <<Create>> EditorCanvas()
+~ void createFrame()
++ int getWidth()
++ int getHeight()
+~ void refresh()
++ void paint(Graphics)
+}
+
+
+
+
+refactoring_guru.composite.example.shapes.Shape <|.. refactoring_guru.composite.example.shapes.BaseShape
+refactoring_guru.composite.example.shapes.BaseShape <|-- refactoring_guru.composite.example.shapes.Circle
+refactoring_guru.composite.example.shapes.BaseShape <|-- refactoring_guru.composite.example.shapes.Dot
+refactoring_guru.composite.example.shapes.BaseShape <|-- refactoring_guru.composite.example.shapes.CompoundShape
+refactoring_guru.composite.example.shapes.BaseShape <|-- refactoring_guru.composite.example.shapes.Rectangle
+refactoring_guru.composite.example.editor.ImageEditor +.. refactoring_guru.composite.example.editor.ImageEditor$EditorCanvas
+refactoring_guru.composite.example.editor.Canvas <|-- refactoring_guru.composite.example.editor.ImageEditor$EditorCanvas
+@enduml

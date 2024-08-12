@@ -1,0 +1,148 @@
+@startuml
+class refactoring_guru.strategy.example.strategies.PayByPayPal {
+- {static} Map<String,String> DATA_BASE
+- BufferedReader READER
+- String email
+- String password
+- boolean signedIn
++ void collectPaymentDetails()
+- boolean verify()
++ boolean pay(int)
+- void setSignedIn(boolean)
+}
+note top of refactoring_guru.strategy.example.strategies.PayByPayPal
+
+ * EN: Concrete strategy. Implements PayPal payment method.
+ *
+ * RU: Конкретная стратегия. Реализует оплату корзины интернет магазина через
+ * платежную систему PayPal.
+ 
+end note
+
+
+note left of refactoring_guru.strategy.example.strategies.PayByPayPal::collectPaymentDetails()
+
+     * EN: Collect customer's data.
+     *
+     * RU: Собираем данные от клиента.
+     
+end note
+note right of refactoring_guru.strategy.example.strategies.PayByPayPal::pay(int)
+
+     * EN: Save customer data for future shopping attempts.
+     *
+     * RU: Если клиент уже вошел в систему, то для следующей оплаты данные
+     * вводить не придется.
+     
+end note
+
+class refactoring_guru.strategy.example.strategies.CreditCard {
+- int amount
+- String number
+- String date
+- String cvv
+~ <<Create>> CreditCard(String,String,String)
++ void setAmount(int)
++ int getAmount()
+}
+note top of refactoring_guru.strategy.example.strategies.CreditCard
+
+ * EN: Dummy credit card class.
+ *
+ * RU: Очень наивная реализация кредитной карты.
+ 
+end note
+
+
+
+interface refactoring_guru.strategy.example.strategies.PayStrategy {
+~ boolean pay(int)
+~ void collectPaymentDetails()
+}
+note top of refactoring_guru.strategy.example.strategies.PayStrategy
+
+ * EN: Common interface for all strategies.
+ *
+ * RU: Общий интерфейс всех стратегий.
+ 
+end note
+
+
+class refactoring_guru.strategy.example.order.Order {
+- int totalCost
+- boolean isClosed
++ void processOrder(PayStrategy)
++ void setTotalCost(int)
++ int getTotalCost()
++ boolean isClosed()
++ void setClosed()
+}
+note top of refactoring_guru.strategy.example.order.Order
+
+ * EN: Order class. Doesn't know the concrete payment method (strategy) user has
+ * picked. It uses common strategy interface to delegate collecting payment data
+ * to strategy object. It can be used to save order to database.
+ *
+ * RU: Класс заказа. Ничего не знает о том каким способом (стратегией) будет
+ * расчитыватся клиент, а просто вызывает метод оплаты. Все остальное стратегия
+ * делает сама.
+ 
+end note
+
+
+
+class refactoring_guru.strategy.example.Demo {
+- {static} Map<Integer,Integer> priceOnProducts
+- {static} BufferedReader reader
+- {static} Order order
+- {static} PayStrategy strategy
++ {static} void main(String[])
+}
+note top of refactoring_guru.strategy.example.Demo
+
+ * EN: World first console e-commerce application.
+ *
+ * RU: Первый в мире консольный интерет магазин.
+ 
+end note
+
+
+
+class refactoring_guru.strategy.example.strategies.PayByCreditCard {
+- BufferedReader READER
+- CreditCard card
++ void collectPaymentDetails()
++ boolean pay(int)
+- boolean cardIsPresent()
+}
+note top of refactoring_guru.strategy.example.strategies.PayByCreditCard
+
+ * EN: Concrete strategy. Implements credit card payment method.
+ *
+ * RU: Конкретная стратегия. Реализует оплату корзины интернет магазина
+ * кредитной картой клиента.
+ 
+end note
+
+
+note left of refactoring_guru.strategy.example.strategies.PayByCreditCard::collectPaymentDetails()
+
+     * EN: Collect credit card data.
+     *
+     * RU: Собираем данные карты клиента.
+     
+end note
+note right of refactoring_guru.strategy.example.strategies.PayByCreditCard::pay(int)
+
+     * EN: After card validation we can charge customer's credit card.
+     *
+     * RU: После проверки карты мы можем совершить оплату. Если клиент
+     * продолжает покупки, мы не запрашиваем карту заново.
+     
+end note
+
+
+
+refactoring_guru.strategy.example.strategies.PayStrategy <|.. refactoring_guru.strategy.example.strategies.PayByPayPal
+refactoring_guru.strategy.example.strategies.PayStrategy <|.. refactoring_guru.strategy.example.strategies.PayByCreditCard
+@enduml

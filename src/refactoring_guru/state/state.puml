@@ -1,0 +1,112 @@
+@startuml
+class refactoring_guru.state.example.ui.Player {
+- State state
+- boolean playing
+- List<String> playlist
+- int currentTrack
++ <<Create>> Player()
++ void changeState(State)
++ State getState()
++ void setPlaying(boolean)
++ boolean isPlaying()
++ String startPlayback()
++ String nextTrack()
++ String previousTrack()
++ void setCurrentTrackAfterStop()
+}
+
+
+class refactoring_guru.state.example.states.LockedState {
+~ <<Create>> LockedState(Player)
++ String onLock()
++ String onPlay()
++ String onNext()
++ String onPrevious()
+}
+note top of refactoring_guru.state.example.states.LockedState
+
+ * EN: Concrete states provide the special implementation for all interface
+ * methods.
+ *
+ * RU: Конкретные состояния реализуют методы абстрактного состояния по-своему.
+ 
+end note
+
+
+class refactoring_guru.state.example.states.PlayingState {
+~ <<Create>> PlayingState(Player)
++ String onLock()
++ String onPlay()
++ String onNext()
++ String onPrevious()
+}
+
+class refactoring_guru.state.example.ui.UI {
+- Player player
+- {static} JTextField textField
++ <<Create>> UI(Player)
++ void init()
+}
+
+
+class refactoring_guru.state.example.Demo {
++ {static} void main(String[])
+}
+note top of refactoring_guru.state.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+
+abstract class refactoring_guru.state.example.states.State {
+~ Player player
+~ <<Create>> State(Player)
++ {abstract}String onLock()
++ {abstract}String onPlay()
++ {abstract}String onNext()
++ {abstract}String onPrevious()
+}
+note top of refactoring_guru.state.example.states.State
+
+ * EN: Common interface for all states.
+ *
+ * RU: Общий интерфейс всех состояний.
+ 
+end note
+
+
+note left of refactoring_guru.state.example.states.State::State(Player)
+
+     * EN: Context passes itself through the state constructor. This may help a
+     * state to fetch some useful context data if needed.
+     *
+     * RU: Контекст передаёт себя в конструктор состояния, чтобы состояние могло
+     * обращаться к его данным и методам в будущем, если потребуется.
+     
+end note
+
+class refactoring_guru.state.example.states.ReadyState {
++ <<Create>> ReadyState(Player)
++ String onLock()
++ String onPlay()
++ String onNext()
++ String onPrevious()
+}
+note top of refactoring_guru.state.example.states.ReadyState
+
+ * EN: They can also trigger state transitions in the context.
+ *
+ * RU: Они также могут переводить контекст в другие состояния.
+ 
+end note
+
+
+
+
+refactoring_guru.state.example.states.State <|-- refactoring_guru.state.example.states.LockedState
+refactoring_guru.state.example.states.State <|-- refactoring_guru.state.example.states.PlayingState
+refactoring_guru.state.example.states.State <|-- refactoring_guru.state.example.states.ReadyState
+@enduml

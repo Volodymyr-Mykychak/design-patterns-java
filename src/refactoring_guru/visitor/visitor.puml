@@ -1,0 +1,89 @@
+@startuml
+class refactoring_guru.visitor.example.shapes.CompoundShape {
++ int id
++ List<Shape> children
++ <<Create>> CompoundShape(int)
++ void move(int,int)
++ void draw()
++ int getId()
++ String accept(Visitor)
++ void add(Shape)
+}
+
+
+class refactoring_guru.visitor.example.shapes.Dot {
+- int id
+- int x
+- int y
++ <<Create>> Dot()
++ <<Create>> Dot(int,int,int)
++ void move(int,int)
++ void draw()
++ String accept(Visitor)
++ int getX()
++ int getY()
++ int getId()
+}
+
+
+interface refactoring_guru.visitor.example.visitor.Visitor {
+~ String visitDot(Dot)
+~ String visitCircle(Circle)
+~ String visitRectangle(Rectangle)
+~ String visitCompoundGraphic(CompoundShape)
+}
+
+class refactoring_guru.visitor.example.visitor.XMLExportVisitor {
++ String export(Shape)
++ String visitDot(Dot)
++ String visitCircle(Circle)
++ String visitRectangle(Rectangle)
++ String visitCompoundGraphic(CompoundShape)
+- String _visitCompoundGraphic(CompoundShape)
+}
+
+class refactoring_guru.visitor.example.Demo {
++ {static} void main(String[])
+- {static} void export(Shape)
+}
+
+interface refactoring_guru.visitor.example.shapes.Shape {
+~ void move(int,int)
+~ void draw()
+~ String accept(Visitor)
+}
+
+class refactoring_guru.visitor.example.shapes.Circle {
+- int radius
++ <<Create>> Circle(int,int,int,int)
++ String accept(Visitor)
++ int getRadius()
+}
+
+
+class refactoring_guru.visitor.example.shapes.Rectangle {
+- int id
+- int x
+- int y
+- int width
+- int height
++ <<Create>> Rectangle(int,int,int,int,int)
++ String accept(Visitor)
++ void move(int,int)
++ void draw()
++ int getId()
++ int getX()
++ int getY()
++ int getWidth()
++ int getHeight()
+}
+
+
+
+
+refactoring_guru.visitor.example.shapes.Shape <|.. refactoring_guru.visitor.example.shapes.CompoundShape
+refactoring_guru.visitor.example.shapes.Shape <|.. refactoring_guru.visitor.example.shapes.Dot
+refactoring_guru.visitor.example.visitor.Visitor <|.. refactoring_guru.visitor.example.visitor.XMLExportVisitor
+refactoring_guru.visitor.example.shapes.Dot <|-- refactoring_guru.visitor.example.shapes.Circle
+refactoring_guru.visitor.example.shapes.Shape <|.. refactoring_guru.visitor.example.shapes.Rectangle
+@enduml

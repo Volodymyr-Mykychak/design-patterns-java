@@ -1,0 +1,203 @@
+@startuml
+interface refactoring_guru.memento.example.commands.Command {
+~ String getName()
+~ void execute()
+}
+
+class refactoring_guru.memento.example.commands.MoveCommand {
+- Editor editor
+- int startX
+- int endX
++ <<Create>> MoveCommand(Editor)
++ String getName()
++ void start(int,int)
++ void move(int,int)
++ void stop(int,int)
++ void execute()
+}
+
+
+class refactoring_guru.memento.example.commands.ColorCommand {
+- Editor editor
+- Color color
++ <<Create>> ColorCommand(Editor,Color)
++ String getName()
++ void execute()
+}
+
+
+class refactoring_guru.memento.example.editor.Canvas {
+- Editor editor
+- JFrame frame
+- {static} int PADDING
+~ <<Create>> Canvas(Editor)
+- void createFrame()
+- void attachKeyboardListeners()
+- void attachMouseListeners()
++ int getWidth()
++ int getHeight()
+~ void refresh()
++ void update(Graphics)
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.memento.example.editor.Editor {
+- Canvas canvas
+- CompoundShape allShapes
+- History history
++ <<Create>> Editor()
++ void loadShapes(Shape)
++ CompoundShape getShapes()
++ void execute(Command)
++ void undo()
++ void redo()
++ String backup()
++ void restore(String)
+}
+
+
+interface refactoring_guru.memento.example.shapes.Shape {
+~ int getX()
+~ int getY()
+~ int getWidth()
+~ int getHeight()
+~ void drag()
+~ void drop()
+~ void moveTo(int,int)
+~ void moveBy(int,int)
+~ boolean isInsideBounds(int,int)
+~ Color getColor()
+~ void setColor(Color)
+~ void select()
+~ void unSelect()
+~ boolean isSelected()
+~ void paint(Graphics)
+}
+
+class refactoring_guru.memento.example.shapes.CompoundShape {
+- List<Shape> children
++ <<Create>> CompoundShape(Shape)
++ void add(Shape)
++ void add(Shape)
++ void remove(Shape)
++ void remove(Shape)
++ void clear()
++ int getX()
++ int getY()
++ int getWidth()
++ int getHeight()
++ void drag()
++ void drop()
++ void moveTo(int,int)
++ void moveBy(int,int)
++ boolean isInsideBounds(int,int)
++ void setColor(Color)
++ void unSelect()
++ Shape getChildAt(int,int)
++ boolean selectChildAt(int,int)
++ List<Shape> getSelected()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.memento.example.shapes.Circle {
+- int radius
++ <<Create>> Circle(int,int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+abstract class refactoring_guru.memento.example.shapes.BaseShape {
+~ int x
+- int dx
+- Color color
+- boolean selected
+~ <<Create>> BaseShape(int,int,Color)
++ int getX()
++ int getY()
++ int getWidth()
++ int getHeight()
++ void drag()
++ void moveTo(int,int)
++ void moveBy(int,int)
++ void drop()
++ boolean isInsideBounds(int,int)
++ Color getColor()
++ void setColor(Color)
++ void select()
++ void unSelect()
++ boolean isSelected()
+~ void enableSelectionStyle(Graphics)
+~ void disableSelectionStyle(Graphics)
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.memento.example.shapes.Rectangle {
+- int width
+- int height
++ <<Create>> Rectangle(int,int,int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.memento.example.shapes.Dot {
+- int DOT_SIZE
++ <<Create>> Dot(int,int,Color)
++ int getWidth()
++ int getHeight()
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.memento.example.history.History {
+- List<Pair> history
+- int virtualSize
++ void push(Command,Memento)
++ boolean undo()
++ boolean redo()
+- Pair getUndo()
+- Pair getRedo()
+}
+
+
+class refactoring_guru.memento.example.history.History$Pair {
+~ Command command
+~ Memento memento
+~ <<Create>> Pair(Command,Memento)
+- Command getCommand()
+- Memento getMemento()
+}
+
+
+class refactoring_guru.memento.example.history.Memento {
+- String backup
+- Editor editor
++ <<Create>> Memento(Editor)
++ void restore()
+}
+
+
+class refactoring_guru.memento.example.Demo {
++ {static} void main(String[])
+}
+
+
+
+refactoring_guru.memento.example.commands.Command <|.. refactoring_guru.memento.example.commands.MoveCommand
+refactoring_guru.memento.example.commands.Command <|.. refactoring_guru.memento.example.commands.ColorCommand
+refactoring_guru.memento.example.editor.Canvas <|-- refactoring_guru.memento.example.editor.Canvas
+refactoring_guru.memento.example.editor.JComponent <|-- refactoring_guru.memento.example.editor.Editor
+java.io.Serializable <|-- refactoring_guru.memento.example.shapes.Shape
+refactoring_guru.memento.example.shapes.BaseShape <|-- refactoring_guru.memento.example.shapes.CompoundShape
+refactoring_guru.memento.example.shapes.BaseShape <|-- refactoring_guru.memento.example.shapes.Circle
+refactoring_guru.memento.example.shapes.Shape <|.. refactoring_guru.memento.example.shapes.BaseShape
+refactoring_guru.memento.example.shapes.BaseShape <|-- refactoring_guru.memento.example.shapes.Rectangle
+refactoring_guru.memento.example.shapes.BaseShape <|-- refactoring_guru.memento.example.shapes.Dot
+refactoring_guru.memento.example.history.History +.. refactoring_guru.memento.example.history.History$Pair
+@enduml

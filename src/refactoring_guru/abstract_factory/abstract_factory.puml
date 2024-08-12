@@ -1,0 +1,191 @@
+@startuml
+class refactoring_guru.abstract_factory.example.checkboxes.MacOSCheckbox {
++ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.checkboxes.MacOSCheckbox
+
+ * EN: All products families have the same varieties (MacOS/Windows).
+ *
+ * This is a variant of a checkbox.
+ *
+ * RU: Все семейства продуктов имеют одинаковые вариации (MacOS/Windows).
+ *
+ * Вариация чекбокса под MacOS.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.buttons.MacOSButton {
++ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.buttons.MacOSButton
+
+ * EN: All products families have the same varieties (MacOS/Windows).
+ *
+ * This is a MacOS variant of a button.
+ *
+ * RU: Все семейства продуктов имеют одни и те же вариации (MacOS/Windows).
+ *
+ * Это вариант кнопки под MacOS.
+ 
+end note
+
+
+interface refactoring_guru.abstract_factory.example.factories.GUIFactory {
+~ Button createButton()
+~ Checkbox createCheckbox()
+}
+note top of refactoring_guru.abstract_factory.example.factories.GUIFactory
+
+ * EN: Abstract factory knows about all (abstract) product types.
+ *
+ * RU: Абстрактная фабрика знает обо всех (абстрактных) типах продуктов.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.app.Application {
+- Button button
+- Checkbox checkbox
++ <<Create>> Application(GUIFactory)
++ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.app.Application
+
+ * EN: Factory users don't care which concrete factory they use since they work
+ * with factories and products through abstract interfaces.
+ *
+ * RU: Код, использующий фабрику, не волнует с какой конкретно фабрикой он
+ * работает. Все получатели продуктов работают с продуктами через абстрактный
+ * интерфейс.
+ 
+end note
+
+
+
+class refactoring_guru.abstract_factory.example.factories.MacOSFactory {
++ Button createButton()
++ Checkbox createCheckbox()
+}
+note top of refactoring_guru.abstract_factory.example.factories.MacOSFactory
+
+ * EN: Each concrete factory extends basic factory and responsible for creating
+ * products of a single variety.
+ *
+ * RU: Каждая конкретная фабрика знает и создаёт только продукты своей вариации.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.buttons.WindowsButton {
++ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.buttons.WindowsButton
+
+ * EN: All products families have the same varieties (MacOS/Windows).
+ *
+ * This is another variant of a button.
+ *
+ * RU: Все семейства продуктов имеют одни и те же вариации (MacOS/Windows).
+ *
+ * Это вариант кнопки под Windows.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.checkboxes.WindowsCheckbox {
++ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.checkboxes.WindowsCheckbox
+
+ * EN: All products families have the same varieties (MacOS/Windows).
+ *
+ * This is another variant of a checkbox.
+ *
+ * RU: Все семейства продуктов имеют одинаковые вариации (MacOS/Windows).
+ *
+ * Вариация чекбокса под Windows.
+ 
+end note
+
+
+interface refactoring_guru.abstract_factory.example.checkboxes.Checkbox {
+~ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.checkboxes.Checkbox
+
+ * EN: Checkboxes is the second product family. It has the same variants as
+ * buttons.
+ *
+ * RU: Чекбоксы — это второе семейство продуктов. Оно имеет те же вариации, что
+ * и кнопки.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.factories.WindowsFactory {
++ Button createButton()
++ Checkbox createCheckbox()
+}
+note top of refactoring_guru.abstract_factory.example.factories.WindowsFactory
+
+ * EN: Each concrete factory extends basic factory and responsible for creating
+ * products of a single variety.
+ *
+ * RU: Каждая конкретная фабрика знает и создаёт только продукты своей вариации.
+ 
+end note
+
+
+interface refactoring_guru.abstract_factory.example.buttons.Button {
+~ void paint()
+}
+note top of refactoring_guru.abstract_factory.example.buttons.Button
+
+ * EN: Abstract Factory assumes that you have several families of products,
+ * structured into separate class hierarchies (Button/Checkbox). All products of
+ * the same family have the common interface.
+ *
+ * This is the common interface for buttons family.
+ *
+ * RU: Паттерн предполагает, что у вас есть несколько семейств продуктов,
+ * находящихся в отдельных иерархиях классов (Button/Checkbox). Продукты одного
+ * семейства должны иметь общий интерфейс.
+ *
+ * Это — общий интерфейс для семейства продуктов кнопок.
+ 
+end note
+
+
+class refactoring_guru.abstract_factory.example.Demo {
+- {static} Application configureApplication()
++ {static} void main(String[])
+}
+note top of refactoring_guru.abstract_factory.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+note left of refactoring_guru.abstract_factory.example.Demo::configureApplication()
+
+     * EN: Application picks the factory type and creates it in run time
+     * (usually at initialization stage), depending on the configuration or
+     * environment variables.
+     *
+     * RU: Приложение выбирает тип и создаёт конкретные фабрики динамически
+     * исходя из конфигурации или окружения.
+     
+end note
+
+
+
+refactoring_guru.abstract_factory.example.checkboxes.Checkbox <|.. refactoring_guru.abstract_factory.example.checkboxes.MacOSCheckbox
+refactoring_guru.abstract_factory.example.buttons.Button <|.. refactoring_guru.abstract_factory.example.buttons.MacOSButton
+refactoring_guru.abstract_factory.example.factories.GUIFactory <|.. refactoring_guru.abstract_factory.example.factories.MacOSFactory
+refactoring_guru.abstract_factory.example.buttons.Button <|.. refactoring_guru.abstract_factory.example.buttons.WindowsButton
+refactoring_guru.abstract_factory.example.checkboxes.Checkbox <|.. refactoring_guru.abstract_factory.example.checkboxes.WindowsCheckbox
+refactoring_guru.abstract_factory.example.factories.GUIFactory <|.. refactoring_guru.abstract_factory.example.factories.WindowsFactory
+@enduml

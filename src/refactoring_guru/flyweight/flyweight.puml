@@ -1,0 +1,45 @@
+@startuml
+class refactoring_guru.flyweight.example.forest.Forest {
+- List<Tree> trees
++ void plantTree(int,int,String,Color,String)
++ void paint(Graphics)
+}
+
+
+class refactoring_guru.flyweight.example.trees.TreeType {
+- String name
+- Color color
+- String otherTreeData
++ <<Create>> TreeType(String,Color,String)
++ void draw(Graphics,int,int)
+}
+
+
+class refactoring_guru.flyweight.example.trees.Tree {
+- int x
+- int y
+- TreeType type
++ <<Create>> Tree(int,int,TreeType)
++ void draw(Graphics)
+}
+
+
+class refactoring_guru.flyweight.example.trees.TreeFactory {
+~ {static} Map<String,TreeType> treeTypes
++ {static} TreeType getTreeType(String,Color,String)
+}
+
+
+class refactoring_guru.flyweight.example.Demo {
+~ {static} int CANVAS_SIZE
+~ {static} int TREES_TO_DRAW
+~ {static} int TREE_TYPES
++ {static} void main(String[])
+- {static} int random(int,int)
+}
+
+
+
+
+refactoring_guru.flyweight.example.forest.JFrame <|-- refactoring_guru.flyweight.example.forest.Forest
+@enduml
