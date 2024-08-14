@@ -1,0 +1,38 @@
+
+# Abstract Factory Pattern Demo
+
+This project demonstrates the Abstract Factory design pattern by creating a simple GUI application. The application uses different factories to create UI components depending on the operating system.
+
+## Objective
+
+The goal is to understand and implement the Abstract Factory pattern. You will create:
+- Interfaces for `Button` and `Checkbox`
+- Concrete implementations for different platforms (e.g., MacOS and Windows)
+- A `GUIFactory` interface with methods for creating UI components
+- Concrete factories for each platform
+- An `Application` class that uses the factory to create and paint UI components
+- A `Demo` class that demonstrates how to use the pattern
+
+## Task Instructions
+
+1. Implement the `Button` and `Checkbox` interfaces.
+2. Create concrete implementations for these interfaces:
+   - `MacOSButton`, `WindowsButton`
+   - `MacOSCheckbox`, `WindowsCheckbox`
+3. Define the `GUIFactory` interface with methods `createButton()` and `createCheckbox()`.
+4. Implement the `MacOSFactory` and `WindowsFactory` classes.
+5. Develop the `Application` class that uses the factory to create and paint components.
+6. Write the `Demo` class to configure and run the application based on the operating system.
+
+## Example Usage
+
+Run the `Demo` class to see the pattern in action. It will automatically select the appropriate factory based on the operating system and display the created components.
+
+## Notes
+
+- Feel free to modify and extend the code to better understand the pattern.
+- The focus is on learning the Abstract Factory pattern, so adjust the complexity as needed.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
