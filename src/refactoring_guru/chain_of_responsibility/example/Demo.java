@@ -7,8 +7,8 @@ import refactoring_guru.chain_of_responsibility.example.middleware.UserExistsMid
 import refactoring_guru.chain_of_responsibility.example.server.Server;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+
 
 /**
  * EN: Demo class. Everything comes together here.

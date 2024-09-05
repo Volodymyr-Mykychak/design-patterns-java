@@ -1,0 +1,41 @@
+@startuml
+actor User as user
+participant Demo
+participant SocialSpammer
+participant SocialNetwork
+participant ProfileIterator
+participant Profile
+
+user -> Demo: main()
+Demo -> Demo: createTestProfiles()
+Demo -> SocialNetwork: createSocialNetwork()
+Demo -> SocialSpammer: new SocialSpammer(network)
+Demo -> SocialSpammer: sendSpamToFriends()
+SocialSpammer -> SocialNetwork: createFriendsIterator(profileEmail)
+SocialNetwork -> ProfileIterator: new FacebookIterator/LinkedInIterator()
+SocialSpammer -> ProfileIterator: hasNext()
+ProfileIterator -> ProfileIterator: lazyLoad()
+ProfileIterator -> SocialNetwork: requestProfileFriendsFromFacebook()/requestRelatedContactsFromLinkedInAPI()
+SocialNetwork -> Profile: findProfile(profileEmail)
+Profile -> SocialNetwork: getContacts(contactType)
+ProfileIterator -> ProfileIterator: add emails and profiles
+ProfileIterator -> SocialSpammer: return true/false (hasNext)
+SocialSpammer -> ProfileIterator: getNext()
+ProfileIterator -> ProfileIterator: requestProfileFromFacebook()/requestContactInfoFromLinkedInAPI()
+ProfileIterator -> Profile: return Profile
+SocialSpammer -> SocialSpammer: sendMessage(email, message)
+
+user -> Demo: sendSpamToCoworkers()
+Demo -> SocialSpammer: sendSpamToCoworkers()
+SocialSpammer -> SocialNetwork: createCoworkersIterator(profileEmail)
+SocialNetwork -> ProfileIterator: new FacebookIterator/LinkedInIterator()
+SocialSpammer -> ProfileIterator: hasNext()
+ProfileIterator -> ProfileIterator: lazyLoad()
+ProfileIterator -> SocialNetwork: requestProfileFriendsFromFacebook()/requestRelatedContactsFromLinkedInAPI()
+ProfileIterator -> ProfileIterator: return true/false (hasNext)
+SocialSpammer -> ProfileIterator: getNext()
+ProfileIterator -> ProfileIterator: requestProfileFromFacebook()/requestContactInfoFromLinkedInAPI()
+ProfileIterator -> Profile: return Profile
+SocialSpammer -> SocialSpammer: sendMessage(email, message)
+
+@enduml
