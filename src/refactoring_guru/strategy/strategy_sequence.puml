@@ -1,0 +1,44 @@
+@startuml
+participant Client
+participant Demo
+participant Order
+participant PayStrategy
+participant PayByCreditCard
+participant PayByPayPal
+
+Client -> Demo: Select Product(s)
+activate Demo
+Demo -> Order: setTotalCost()
+activate Order
+Order --> Demo: Total cost set
+deactivate Order
+
+Client -> Demo: Select Payment Method
+Demo -> PayByCreditCard: If CreditCard selected
+activate PayByCreditCard
+PayByCreditCard -> PayStrategy: Implements PayStrategy
+deactivate PayByCreditCard
+
+Demo -> PayByPayPal: If PayPal selected
+activate PayByPayPal
+PayByPayPal -> PayStrategy: Implements PayStrategy
+deactivate PayByPayPal
+
+Client -> Demo: Proceed with Payment
+Demo -> Order: processOrder(strategy)
+activate Order
+Order -> PayStrategy: collectPaymentDetails()
+activate PayStrategy
+PayStrategy --> Order: Payment details collected
+deactivate PayStrategy
+
+Order -> PayStrategy: pay(totalCost)
+activate PayStrategy
+PayStrategy --> Order: Payment success/failure
+deactivate PayStrategy
+Order --> Demo: Order Closed
+deactivate Order
+
+Demo --> Client: Payment confirmation
+deactivate Demo
+@enduml
