@@ -1,0 +1,53 @@
+@startuml
+actor Client
+participant YouTubeDownloader
+participant YouTubeCacheProxy
+participant ThirdPartyYouTubeClass
+participant Video
+
+Client -> YouTubeDownloader: renderPopularVideos()
+YouTubeDownloader -> YouTubeCacheProxy: popularVideos()
+YouTubeCacheProxy -> ThirdPartyYouTubeClass: popularVideos() [cache miss]
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: connectToServer()
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: getRandomVideos()
+ThirdPartyYouTubeClass -> YouTubeCacheProxy: return HashMap<String, Video>
+YouTubeCacheProxy -> YouTubeDownloader: return HashMap<String, Video>
+YouTubeDownloader -> Client: Display popular videos
+
+Client -> YouTubeDownloader: renderVideoPage("catzzzzzzzzz")
+YouTubeDownloader -> YouTubeCacheProxy: getVideo("catzzzzzzzzz")
+YouTubeCacheProxy -> ThirdPartyYouTubeClass: getVideo("catzzzzzzzzz") [cache miss]
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: connectToServer()
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: getSomeVideo("catzzzzzzzzz")
+ThirdPartyYouTubeClass -> YouTubeCacheProxy: return Video
+YouTubeCacheProxy -> YouTubeDownloader: return Video
+YouTubeDownloader -> Client: Display video "catzzzzzzzzz"
+
+Client -> YouTubeDownloader: renderPopularVideos()
+YouTubeDownloader -> YouTubeCacheProxy: popularVideos() [cache hit]
+YouTubeCacheProxy -> YouTubeDownloader: return cached HashMap<String, Video>
+YouTubeDownloader -> Client: Display cached popular videos
+
+Client -> YouTubeDownloader: renderVideoPage("dancesvideoo")
+YouTubeDownloader -> YouTubeCacheProxy: getVideo("dancesvideoo")
+YouTubeCacheProxy -> ThirdPartyYouTubeClass: getVideo("dancesvideoo") [cache miss]
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: connectToServer()
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: getSomeVideo("dancesvideoo")
+ThirdPartyYouTubeClass -> YouTubeCacheProxy: return Video
+YouTubeCacheProxy -> YouTubeDownloader: return Video
+YouTubeDownloader -> Client: Display video "dancesvideoo"
+
+Client -> YouTubeDownloader: renderVideoPage("catzzzzzzzzz")
+YouTubeDownloader -> YouTubeCacheProxy: getVideo("catzzzzzzzzz") [cache hit]
+YouTubeCacheProxy -> YouTubeDownloader: return cached Video
+YouTubeDownloader -> Client: Display cached video "catzzzzzzzzz"
+
+Client -> YouTubeDownloader: renderVideoPage("someothervid")
+YouTubeDownloader -> YouTubeCacheProxy: getVideo("someothervid") [cache miss]
+YouTubeCacheProxy -> ThirdPartyYouTubeClass: getVideo("someothervid")
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: connectToServer()
+ThirdPartyYouTubeClass -> ThirdPartyYouTubeClass: getSomeVideo("someothervid")
+ThirdPartyYouTubeClass -> YouTubeCacheProxy: return Video
+YouTubeCacheProxy -> YouTubeDownloader: return Video
+YouTubeDownloader -> Client: Display video "someothervid"
+@enduml
