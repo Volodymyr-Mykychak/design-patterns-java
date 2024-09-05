@@ -1,0 +1,31 @@
+@startuml
+actor Client
+participant Director
+participant CarBuilder
+participant Car
+participant CarManualBuilder
+participant Manual
+
+Client -> Director: new Director()
+Client -> CarBuilder: new CarBuilder()
+Client -> Director: constructSportsCar(CarBuilder)
+Director -> CarBuilder: setCarType(CarType.SPORTS_CAR)
+Director -> CarBuilder: setSeats(2)
+Director -> CarBuilder: setEngine(Engine)
+Director -> CarBuilder: setTransmission(Transmission.SEMI_AUTOMATIC)
+Director -> CarBuilder: setTripComputer(TripComputer)
+Director -> CarBuilder: setGPSNavigator(GPSNavigator)
+CarBuilder -> Car: getResult()
+Client <- CarBuilder: Car
+
+Client -> CarManualBuilder: new CarManualBuilder()
+Client -> Director: constructSportsCar(CarManualBuilder)
+Director -> CarManualBuilder: setCarType(CarType.SPORTS_CAR)
+Director -> CarManualBuilder: setSeats(2)
+Director -> CarManualBuilder: setEngine(Engine)
+Director -> CarManualBuilder: setTransmission(Transmission.SEMI_AUTOMATIC)
+Director -> CarManualBuilder: setTripComputer(TripComputer)
+Director -> CarManualBuilder: setGPSNavigator(GPSNavigator)
+CarManualBuilder -> Manual: getResult()
+Client <- CarManualBuilder: Manual
+@enduml

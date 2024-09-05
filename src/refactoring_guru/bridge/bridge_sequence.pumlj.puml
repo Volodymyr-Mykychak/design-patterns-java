@@ -1,0 +1,22 @@
+@startuml
+actor Client
+
+Client -> Demo : testDevice(new Tv())
+Demo -> BasicRemote : power()
+BasicRemote -> Tv : isEnabled()
+Tv --> BasicRemote : return false
+BasicRemote -> Tv : enable()
+Tv -> Tv : change status to enabled
+BasicRemote -> Tv : printStatus()
+
+Client -> Demo : testDevice(new Radio())
+Demo -> AdvancedRemote : power()
+AdvancedRemote -> Radio : isEnabled()
+Radio --> AdvancedRemote : return false
+AdvancedRemote -> Radio : enable()
+Radio -> Radio : change status to enabled
+AdvancedRemote -> AdvancedRemote : mute()
+AdvancedRemote -> Radio : setVolume(0)
+Radio -> Radio : set volume to 0
+AdvancedRemote -> Radio : printStatus()
+@enduml
