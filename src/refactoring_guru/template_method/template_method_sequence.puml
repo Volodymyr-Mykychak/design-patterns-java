@@ -1,0 +1,38 @@
+@startuml
+actor User
+
+User -> Demo: Input user name
+User -> Demo: Input password
+User -> Demo: Input message
+User -> Demo: Choose network
+
+Demo -> Facebook: new Facebook(userName, password) [or]
+Demo -> Twitter: new Twitter(userName, password)
+
+Demo -> Network: post(message)
+activate Network
+    Network -> Network: logIn(userName, password)
+    activate Network
+    Network -> Facebook: logIn (if Facebook selected)
+    Facebook -> Network: true (if login successful)
+    Network -> Twitter: logIn (if Twitter selected)
+    Twitter -> Network: true (if login successful)
+    deactivate Network
+
+    Network -> Network: sendData(message)
+    activate Network
+    Network -> Facebook: sendData (if Facebook selected)
+    Facebook -> Network: true (message posted)
+    Network -> Twitter: sendData (if Twitter selected)
+    Twitter -> Network: true (message posted)
+    deactivate Network
+
+    Network -> Network: logOut()
+    activate Network
+    Network -> Facebook: logOut (if Facebook selected)
+    Network -> Twitter: logOut (if Twitter selected)
+    deactivate Network
+deactivate Network
+
+User <- Demo: Post completed
+@enduml
