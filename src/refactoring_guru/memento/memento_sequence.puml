@@ -1,0 +1,38 @@
+@startuml
+actor Client
+
+Client -> Editor: makeChange(new TextChangeCommand())
+activate Editor
+
+Editor -> History: backup()
+activate History
+
+History -> Editor: createSnapshot()
+activate Editor
+Editor -> EditorSnapshot: new EditorSnapshot(content)
+activate EditorSnapshot
+EditorSnapshot --> History: return Snapshot
+deactivate EditorSnapshot
+History --> Editor: snapshot saved
+deactivate History
+
+Editor -> TextChangeCommand: execute()
+activate TextChangeCommand
+TextChangeCommand --> Editor: change content
+deactivate TextChangeCommand
+
+Client -> Editor: undo()
+activate Editor
+
+Editor -> History: getLastSnapshot()
+activate History
+History -> EditorSnapshot: return last snapshot
+deactivate History
+
+Editor -> EditorSnapshot: restore()
+activate EditorSnapshot
+EditorSnapshot --> Editor: restored content
+deactivate EditorSnapshot
+
+deactivate Editor
+@enduml
