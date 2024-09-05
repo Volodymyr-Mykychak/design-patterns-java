@@ -1,0 +1,18 @@
+@startuml
+actor User
+participant Demo
+participant Forest
+participant TreeFactory
+participant Tree
+participant TreeType
+
+User -> Demo: main()
+Demo -> Forest: plantTree(x, y, "Summer Oak", Color.GREEN, "Oak texture stub")
+Forest -> TreeFactory: getTreeType("Summer Oak", Color.GREEN, "Oak texture stub")
+TreeFactory -> TreeType: new TreeType("Summer Oak", Color.GREEN, "Oak texture stub")
+TreeFactory <-- TreeType: Return TreeType object
+Forest <-- TreeFactory: Return TreeType
+Forest -> Tree: new Tree(x, y, TreeType)
+Forest --> Tree: Add Tree to list
+Forest -> User: Show canvas with trees
+@enduml
