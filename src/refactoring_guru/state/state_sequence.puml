@@ -1,0 +1,26 @@
+@startuml
+actor User
+
+User -> UI : clicks Play
+UI -> Player : player.getState().onPlay()
+Player -> ReadyState : onPlay()
+ReadyState -> Player : player.startPlayback()
+ReadyState -> Player : player.changeState(new PlayingState)
+Player -> PlayingState : new PlayingState()
+
+User -> UI : clicks Stop
+UI -> Player : player.getState().onLock()
+Player -> PlayingState : onLock()
+PlayingState -> Player : player.setCurrentTrackAfterStop()
+PlayingState -> Player : player.changeState(new LockedState)
+Player -> LockedState : new LockedState()
+
+User -> UI : clicks Next
+UI -> Player : player.getState().onNext()
+Player -> LockedState : onNext()
+
+User -> UI : clicks Previous
+UI -> Player : player.getState().onPrevious()
+Player -> LockedState : onPrevious()
+
+@enduml
