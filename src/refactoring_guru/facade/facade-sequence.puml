@@ -1,0 +1,35 @@
+@startuml
+actor Client
+
+Client -> VideoConversionFacade : convertVideo("youtubevideo.ogg", "mp4")
+activate VideoConversionFacade
+
+VideoConversionFacade -> VideoFile : new VideoFile("youtubevideo.ogg")
+activate VideoFile
+VideoFile -> VideoFile : getCodecType()
+deactivate VideoFile
+
+VideoConversionFacade -> CodecFactory : extract(file)
+activate CodecFactory
+CodecFactory -> MPEG4CompressionCodec : new MPEG4CompressionCodec()
+deactivate CodecFactory
+
+VideoConversionFacade -> BitrateReader : read(file, sourceCodec)
+activate BitrateReader
+BitrateReader -> VideoFile : read file
+deactivate BitrateReader
+
+VideoConversionFacade -> BitrateReader : convert(buffer, destinationCodec)
+activate BitrateReader
+BitrateReader -> VideoFile : convert buffer
+deactivate BitrateReader
+
+VideoConversionFacade -> AudioMixer : fix(intermediateResult)
+activate AudioMixer
+AudioMixer -> File : return new File("tmp")
+deactivate AudioMixer
+
+VideoConversionFacade -> Client : return result
+deactivate VideoConversionFacade
+
+@enduml
