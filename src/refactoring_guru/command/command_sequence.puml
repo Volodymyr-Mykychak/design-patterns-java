@@ -1,0 +1,30 @@
+@startuml
+actor User
+participant Demo
+participant Editor
+participant CutCommand
+participant CommandHistory
+participant JTextArea
+
+User -> Demo: main()
+Demo -> Editor: init()
+Editor -> JTextArea: display text area and buttons
+User -> Editor: press "Ctrl+X"
+Editor -> CutCommand: executeCommand(new CutCommand(editor))
+CutCommand -> Editor: getSelectedText()
+Editor -> JTextArea: getSelectedText()
+JTextArea --> Editor: return selected text
+
+CutCommand -> CutCommand: backup()
+CutCommand -> Editor: getText()
+Editor -> JTextArea: getText()
+JTextArea --> Editor: return full text
+
+CutCommand -> CutCommand: cutString()
+CutCommand -> Editor: setText(new text)
+Editor -> JTextArea: setText(cutString)
+JTextArea --> Editor: text updated
+
+CutCommand --> Editor: command executed
+Editor -> CommandHistory: push(CutCommand)
+@enduml
