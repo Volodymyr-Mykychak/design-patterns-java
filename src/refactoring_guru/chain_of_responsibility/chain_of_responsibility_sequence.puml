@@ -1,0 +1,44 @@
+@startuml
+actor Client
+
+Client -> Demo: main()
+activate Demo
+Demo -> Demo: init()
+activate Server
+Server -> Server: register("admin@example.com", "admin_pass")
+Server -> Server: register("user@example.com", "user_pass")
+Server <-- Demo:
+
+Client -> Demo: Enter email and password
+Demo -> Server: logIn(email, password)
+activate Server
+Server -> ThrottlingMiddleware: check(email, password)
+activate ThrottlingMiddleware
+
+alt Throttle limit exceeded
+    ThrottlingMiddleware -> Client: Request limit exceeded!
+else Valid request
+    ThrottlingMiddleware -> UserExistsMiddleware: checkNext(email, password)
+    activate UserExistsMiddleware
+
+    alt User not registered
+        UserExistsMiddleware -> Client: This email is not registered!
+    else User registered
+        UserExistsMiddleware -> Server: isValidPassword(email, password)
+        Server --> UserExistsMiddleware: true
+
+        UserExistsMiddleware -> RoleCheckMiddleware: checkNext(email, password)
+        activate RoleCheckMiddleware
+
+        alt Admin login
+            RoleCheckMiddleware -> Client: Hello, admin!
+        else Regular user login
+            RoleCheckMiddleware -> Client: Hello, user!
+        end
+    end
+end
+
+Server --> Demo: true
+Demo -> Client: Authorization successful!
+
+@enduml
