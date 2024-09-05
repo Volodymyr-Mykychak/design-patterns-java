@@ -1,0 +1,14 @@
+@startuml
+actor Client
+Client -> Editor : openFile("test.txt")
+Editor -> EventManager : notify("open", file)
+EventManager -> LogOpenListener : update("open", file)
+LogOpenListener -> Client : "Save to log: test.txt"
+
+Client -> Editor : saveFile()
+Editor -> EventManager : notify("save", file)
+EventManager -> EmailNotificationListener : update("save", file)
+EmailNotificationListener -> Client : "Email to admin@example.com: saved test.txt"
+
+Editor -> Client : return
+@enduml
