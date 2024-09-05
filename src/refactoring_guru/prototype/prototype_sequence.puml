@@ -1,0 +1,29 @@
+@startuml
+actor Client
+participant Demo
+participant BundledShapeCache
+participant Shape
+participant Circle
+participant Rectangle
+
+Client -> Demo: main()
+Demo -> BundledShapeCache: new BundledShapeCache()
+BundledShapeCache -> Circle: new Circle()
+BundledShapeCache -> Rectangle: new Rectangle()
+BundledShapeCache -> BundledShapeCache: put("Big green circle", circle)
+BundledShapeCache -> BundledShapeCache: put("Medium blue rectangle", rectangle)
+
+Client -> BundledShapeCache: get("Big green circle")
+BundledShapeCache -> Circle: clone()
+BundledShapeCache -> Client: Shape (Circle)
+
+Client -> BundledShapeCache: get("Medium blue rectangle")
+BundledShapeCache -> Rectangle: clone()
+BundledShapeCache -> Client: Shape (Rectangle)
+
+Client -> BundledShapeCache: get("Medium blue rectangle")
+BundledShapeCache -> Rectangle: clone()
+BundledShapeCache -> Client: Shape (Rectangle)
+
+Client -> Demo: check if shapes are identical
+@enduml
