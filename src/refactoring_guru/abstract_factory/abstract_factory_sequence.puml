@@ -1,0 +1,22 @@
+@startuml
+actor Client
+Client -> Demo: main()
+Demo -> Demo: configureApplication()
+Demo -> System: getProperty("os.name")
+System --> Demo: "mac" or "windows"
+alt macOS
+    Demo -> MacOSFactory: create()
+    MacOSFactory -> Application: createButton(), createCheckbox()
+    Application -> MacOSButton: paint()
+    MacOSButton --> Application: "You have created MacOSButton"
+    Application -> MacOSCheckbox: paint()
+    MacOSCheckbox --> Application: "You have created MacOSCheckbox"
+else Windows
+    Demo -> WindowsFactory: create()
+    WindowsFactory -> Application: createButton(), createCheckbox()
+    Application -> WindowsButton: paint()
+    WindowsButton --> Application: "You have created WindowsButton"
+    Application -> WindowsCheckbox: paint()
+    WindowsCheckbox --> Application: "You have created WindowsCheckbox"
+end
+@enduml
