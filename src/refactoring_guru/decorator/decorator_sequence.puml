@@ -1,0 +1,21 @@
+@startuml
+actor User
+
+User -> Demo: main()
+Demo -> DataSourceDecorator: new CompressionDecorator(new EncryptionDecorator(new FileDataSource("out/OutputDemo.txt")))
+Demo -> CompressionDecorator: writeData(salaryRecords)
+CompressionDecorator -> EncryptionDecorator: writeData(compress(data))
+EncryptionDecorator -> FileDataSource: writeData(encode(data))
+FileDataSource -> File: write to file
+
+Demo -> FileDataSource: readData()
+FileDataSource -> Demo: return encoded data
+
+Demo -> CompressionDecorator: readData()
+CompressionDecorator -> EncryptionDecorator: readData()
+EncryptionDecorator -> FileDataSource: readData()
+FileDataSource -> EncryptionDecorator: return encoded data
+EncryptionDecorator -> CompressionDecorator: return decoded data
+CompressionDecorator -> Demo: return decompressed data
+
+@enduml
