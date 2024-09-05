@@ -1,0 +1,33 @@
+@startuml
+actor User
+
+User -> AddButton : click()
+AddButton -> Mediator : addNewNote()
+Mediator -> List : addElement(Note)
+List -> Mediator : sendToFilter(ListModel)
+
+User -> DeleteButton : click()
+DeleteButton -> Mediator : deleteNote()
+Mediator -> List : deleteElement()
+List -> Mediator : sendToFilter(ListModel)
+
+User -> Filter : type(String)
+Filter -> Mediator : setElementsList(filteredList)
+
+User -> SaveButton : click()
+SaveButton -> Mediator : saveChanges()
+Mediator -> List : repaint()
+
+User -> List : selectNote()
+List -> Mediator : getInfoFromList(note)
+Mediator -> Title : setText(note.name)
+Mediator -> TextBox : setText(note.text)
+
+User -> TextBox : type()
+TextBox -> Mediator : markNote()
+Mediator -> List : repaint()
+
+User -> Title : type()
+Title -> Mediator : markNote()
+Mediator -> List : repaint()
+@enduml
