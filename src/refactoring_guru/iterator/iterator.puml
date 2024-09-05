@@ -33,7 +33,6 @@ class refactoring_guru.iterator.example.spammer.SocialSpammer {
 + void sendMessage(String,String)
 }
 
-
 class refactoring_guru.iterator.example.iterators.FacebookIterator {
 - Facebook facebook
 - String type
@@ -95,8 +94,10 @@ class refactoring_guru.iterator.example.iterators.LinkedInIterator {
 + void reset()
 }
 
-refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.Facebook
+refactoring_guru.iterator.example.Demo ..> refactoring_guru.iterator.example.iterators.ProfileIterator
+refactoring_guru.iterator.example.Demo ..> refactoring_guru.iterator.example.social_networks.SocialNetwork
 refactoring_guru.iterator.example.iterators.ProfileIterator <|.. refactoring_guru.iterator.example.iterators.FacebookIterator
-refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.LinkedIn
 refactoring_guru.iterator.example.iterators.ProfileIterator <|.. refactoring_guru.iterator.example.iterators.LinkedInIterator
+refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.Facebook
+refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.LinkedIn
 @enduml
