@@ -1,4 +1,18 @@
 @startuml
+
+class refactoring_guru.iterator.example.Demo {
++ {static} Scanner scanner
++ {static} void main(String[])
++ {static} List<Profile> createTestProfiles()
+}
+note top of refactoring_guru.iterator.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+
+end note
+
 class refactoring_guru.iterator.example.social_networks.Facebook {
 - List<Profile> profiles
 + <<Create>> Facebook(List<Profile>)
@@ -9,7 +23,6 @@ class refactoring_guru.iterator.example.social_networks.Facebook {
 + ProfileIterator createFriendsIterator(String)
 + ProfileIterator createCoworkersIterator(String)
 }
-
 
 class refactoring_guru.iterator.example.spammer.SocialSpammer {
 + SocialNetwork network
@@ -35,33 +48,6 @@ class refactoring_guru.iterator.example.iterators.FacebookIterator {
 + void reset()
 }
 
-
-class refactoring_guru.iterator.example.Demo {
-+ {static} Scanner scanner
-+ {static} void main(String[])
-+ {static} List<Profile> createTestProfiles()
-}
-note top of refactoring_guru.iterator.example.Demo
-
- * EN: Demo class. Everything comes together here.
- *
- * RU: Демо-класс. Здесь всё сводится воедино.
- 
-end note
-
-
-
-class refactoring_guru.iterator.example.profile.Profile {
-- String name
-- String email
-- Map<String,List<String>> contacts
-+ <<Create>> Profile(String,String,String)
-+ String getEmail()
-+ String getName()
-+ List<String> getContacts(String)
-}
-
-
 class refactoring_guru.iterator.example.social_networks.LinkedIn {
 - List<Profile> contacts
 + <<Create>> LinkedIn(List<Profile>)
@@ -73,6 +59,16 @@ class refactoring_guru.iterator.example.social_networks.LinkedIn {
 + ProfileIterator createCoworkersIterator(String)
 }
 
+
+class refactoring_guru.iterator.example.profile.Profile {
+- String name
+- String email
+- Map<String,List<String>> contacts
++ <<Create>> Profile(String,String,String)
++ String getEmail()
++ String getName()
++ List<String> getContacts(String)
+}
 
 interface refactoring_guru.iterator.example.social_networks.SocialNetwork {
 ~ ProfileIterator createFriendsIterator(String)
@@ -98,9 +94,6 @@ class refactoring_guru.iterator.example.iterators.LinkedInIterator {
 + Profile getNext()
 + void reset()
 }
-
-
-
 
 refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.Facebook
 refactoring_guru.iterator.example.iterators.ProfileIterator <|.. refactoring_guru.iterator.example.iterators.FacebookIterator
