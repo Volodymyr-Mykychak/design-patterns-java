@@ -1,0 +1,32 @@
+@startuml
+actor Client
+
+Client -> Demo: main()
+activate Demo
+Demo -> Demo: configure()
+activate Demo
+Demo -> System: getProperty("os.name")
+System --> Demo: "Windows 10" or others
+Demo -> WindowsDialog: new WindowsDialog() / new HtmlDialog() (based on OS)
+Demo --> Dialog: dialog = new Dialog()
+
+Client -> Demo: runBusinessLogic()
+Demo -> Dialog: renderWindow()
+activate Dialog
+Dialog -> Dialog: createButton()
+activate Dialog
+Dialog -> Button: new Button (HtmlButton or WindowsButton)
+Dialog --> Button: okButton = new Button
+
+Button -> Button: render()
+activate Button
+Button -> Button: onClick()
+deactivate Button
+Button --> Dialog: Button rendered
+
+Dialog --> Demo: Window rendered
+deactivate Dialog
+
+Demo --> Client: Business logic executed
+deactivate Demo
+@enduml
