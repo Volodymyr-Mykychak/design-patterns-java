@@ -1,0 +1,31 @@
+@startuml
+participant Demo
+participant Context
+participant VariableExpression as A
+participant VariableExpression as B
+participant VariableExpression as C
+participant AndExpression
+participant OrExpression
+
+Demo -> Context: assign(A, true)
+Demo -> Context: assign(B, true)
+Demo -> Context: assign(C, false)
+
+Demo -> AndExpression: interpret(Context)
+AndExpression -> A: interpret(Context)
+A -> Context: lookUp("A")
+Context -> A: return true
+
+AndExpression -> OrExpression: interpret(Context)
+OrExpression -> B: interpret(Context)
+B -> Context: lookUp("B")
+Context -> B: return true
+
+OrExpression -> C: interpret(Context)
+C -> Context: lookUp("C")
+Context -> C: return false
+
+OrExpression -> AndExpression: return true
+AndExpression -> Demo: return true
+
+@enduml
