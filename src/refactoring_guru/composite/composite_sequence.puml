@@ -1,0 +1,16 @@
+@startuml
+actor User
+
+participant "ImageEditor" as editor
+participant "CompoundShape" as compoundShape
+participant "EditorCanvas" as canvas
+
+User -> editor : loadShapes(shapes...)
+editor -> compoundShape : clear()
+editor -> compoundShape : add(shapes)
+editor -> canvas : refresh()
+
+canvas -> canvas : setSize(getWidth(), getHeight())
+canvas -> frame : pack()
+
+@enduml
