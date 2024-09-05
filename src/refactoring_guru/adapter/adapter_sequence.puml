@@ -1,0 +1,22 @@
+@startuml
+actor Client
+
+Client -> RoundHole : fits(smallSqPegAdapter)
+RoundHole -> SquarePegAdapter : getRadius()
+SquarePegAdapter -> SquarePeg : getWidth()
+SquarePeg -> SquarePegAdapter : return width
+SquarePegAdapter -> SquarePegAdapter : calculate radius
+SquarePegAdapter -> RoundHole : return radius
+RoundHole -> RoundHole : compare radii
+RoundHole -> Client : return true
+
+Client -> RoundHole : fits(largeSqPegAdapter)
+RoundHole -> SquarePegAdapter : getRadius()
+SquarePegAdapter -> SquarePeg : getWidth()
+SquarePeg -> SquarePegAdapter : return width
+SquarePegAdapter -> SquarePegAdapter : calculate radius
+SquarePegAdapter -> RoundHole : return radius
+RoundHole -> RoundHole : compare radii
+RoundHole -> Client : return false
+@enduml
+
