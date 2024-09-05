@@ -1,0 +1,53 @@
+@startuml
+class refactoring_guru.prototype.caching.cache.BundledShapeCache {
+- Map<String,Shape> cache
++ <<Create>> BundledShapeCache()
++ Shape put(String,Shape)
++ Shape get(String)
+}
+
+
+class refactoring_guru.prototype.example.shapes.Rectangle {
++ int width
++ int height
++ <<Create>> Rectangle()
++ <<Create>> Rectangle(Rectangle)
++ Shape clone()
++ boolean equals(Object)
+}
+
+
+class refactoring_guru.prototype.example.Demo {
++ {static} void main(String[])
+- {static} void cloneAndCompare(List<Shape>,List<Shape>)
+}
+
+class refactoring_guru.prototype.caching.Demo {
++ {static} void main(String[])
+}
+
+abstract class refactoring_guru.prototype.example.shapes.Shape {
++ int x
++ int y
++ String color
++ <<Create>> Shape()
++ <<Create>> Shape(Shape)
++ {abstract}Shape clone()
++ boolean equals(Object)
+}
+
+
+class refactoring_guru.prototype.example.shapes.Circle {
++ int radius
++ <<Create>> Circle()
++ <<Create>> Circle(Circle)
++ Shape clone()
++ boolean equals(Object)
+}
+
+
+
+
+refactoring_guru.prototype.example.shapes.Shape <|-- refactoring_guru.prototype.example.shapes.Rectangle
+refactoring_guru.prototype.example.shapes.Shape <|-- refactoring_guru.prototype.example.shapes.Circle
+@enduml

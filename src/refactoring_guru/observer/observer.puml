@@ -1,0 +1,46 @@
+@startuml
+interface refactoring_guru.observer.example.listeners.EventListener {
+~ void update(String,File)
+}
+
+class refactoring_guru.observer.example.listeners.LogOpenListener {
+- File log
++ <<Create>> LogOpenListener(String)
++ void update(String,File)
+}
+
+
+class refactoring_guru.observer.example.Demo {
++ {static} void main(String[])
+}
+
+class refactoring_guru.observer.example.publisher.EventManager {
+~ Map<String,List<EventListener>> listeners
++ <<Create>> EventManager(String)
++ void subscribe(String,EventListener)
++ void unsubscribe(String,EventListener)
++ void notify(String,File)
+}
+
+
+class refactoring_guru.observer.example.editor.Editor {
++ EventManager events
+- File file
++ <<Create>> Editor()
++ void openFile(String)
++ void saveFile()
+}
+
+
+class refactoring_guru.observer.example.listeners.EmailNotificationListener {
+- String email
++ <<Create>> EmailNotificationListener(String)
++ void update(String,File)
+}
+
+
+
+
+refactoring_guru.observer.example.listeners.EventListener <|.. refactoring_guru.observer.example.listeners.LogOpenListener
+refactoring_guru.observer.example.listeners.EventListener <|.. refactoring_guru.observer.example.listeners.EmailNotificationListener
+@enduml

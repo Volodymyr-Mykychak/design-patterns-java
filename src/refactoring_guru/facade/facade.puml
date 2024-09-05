@@ -1,0 +1,46 @@
+@startuml
+class refactoring_guru.facade.example.some_complex_media_library.CodecFactory {
++ {static} Codec extract(VideoFile)
+}
+
+class refactoring_guru.facade.example.some_complex_media_library.MPEG4CompressionCodec {
++ String type
+}
+
+class refactoring_guru.facade.example.some_complex_media_library.OggCompressionCodec {
++ String type
+}
+
+class refactoring_guru.facade.example.some_complex_media_library.VideoFile {
+- String name
+- String codecType
++ <<Create>> VideoFile(String)
++ String getCodecType()
++ String getName()
+}
+
+
+class refactoring_guru.facade.example.some_complex_media_library.AudioMixer {
++ File fix(VideoFile)
+}
+
+interface refactoring_guru.facade.example.some_complex_media_library.Codec {
+}
+class refactoring_guru.facade.example.Demo {
++ {static} void main(String[])
+}
+
+class refactoring_guru.facade.example.facade.VideoConversionFacade {
++ File convertVideo(String,String)
+}
+
+class refactoring_guru.facade.example.some_complex_media_library.BitrateReader {
++ {static} VideoFile read(VideoFile,Codec)
++ {static} VideoFile convert(VideoFile,Codec)
+}
+
+
+
+refactoring_guru.facade.example.some_complex_media_library.Codec <|.. refactoring_guru.facade.example.some_complex_media_library.MPEG4CompressionCodec
+refactoring_guru.facade.example.some_complex_media_library.Codec <|.. refactoring_guru.facade.example.some_complex_media_library.OggCompressionCodec
+@enduml

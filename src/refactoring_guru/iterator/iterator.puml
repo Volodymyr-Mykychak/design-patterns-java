@@ -1,0 +1,112 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+    StereotypeCBackgroundColor LightBlue
+    StereotypeIBackgroundColor LightGreen
+}
+
+class refactoring_guru.iterator.example.Demo {
+    + {static} Scanner scanner
+    + {static} void main(String[])
+    + {static} List<Profile> createTestProfiles()
+}
+note top of refactoring_guru.iterator.example.Demo
+    * EN: Demo class. Everything comes together here.
+    * RU: Демо-класс. Здесь всё сводится воедино.
+end note
+
+class refactoring_guru.iterator.example.social_networks.Facebook {
+    - List<Profile> profiles
+    + <<Create>> Facebook(List<Profile>)
+    + Profile requestProfileFromFacebook(String)
+    + List<String> requestProfileFriendsFromFacebook(String, String)
+    - Profile findProfile(String)
+    - void simulateNetworkLatency()
+    + ProfileIterator createFriendsIterator(String)
+    + ProfileIterator createCoworkersIterator(String)
+}
+
+class refactoring_guru.iterator.example.spammer.SocialSpammer {
+    + SocialNetwork network
+    + ProfileIterator iterator
+    + <<Create>> SocialSpammer(SocialNetwork)
+    + void sendSpamToFriends(String, String)
+    + void sendSpamToCoworkers(String, String)
+    + void sendMessage(String, String)
+}
+
+class refactoring_guru.iterator.example.iterators.FacebookIterator {
+    - Facebook facebook
+    - String type
+    - String email
+    - int currentPosition
+    - List<String> emails
+    - List<Profile> profiles
+    + <<Create>> FacebookIterator(Facebook, String, String)
+    - void lazyLoad()
+    + boolean hasNext()
+    + Profile getNext()
+    + void reset()
+}
+
+class refactoring_guru.iterator.example.social_networks.LinkedIn {
+    - List<Profile> contacts
+    + <<Create>> LinkedIn(List<Profile>)
+    + Profile requestContactInfoFromLinkedInAPI(String)
+    + List<String> requestRelatedContactsFromLinkedInAPI(String, String)
+    - Profile findContact(String)
+    - void simulateNetworkLatency()
+    + ProfileIterator createFriendsIterator(String)
+    + ProfileIterator createCoworkersIterator(String)
+}
+
+class refactoring_guru.iterator.example.profile.Profile {
+    - String name
+    - String email
+    - Map<String, List<String>> contacts
+    + <<Create>> Profile(String, String, String)
+    + String getEmail()
+    + String getName()
+    + List<String> getContacts(String)
+}
+
+interface refactoring_guru.iterator.example.social_networks.SocialNetwork {
+    ~ ProfileIterator createFriendsIterator(String)
+    ~ ProfileIterator createCoworkersIterator(String)
+}
+
+interface refactoring_guru.iterator.example.iterators.ProfileIterator {
+    ~ boolean hasNext()
+    ~ Profile getNext()
+    ~ void reset()
+}
+
+class refactoring_guru.iterator.example.iterators.LinkedInIterator {
+    - LinkedIn linkedIn
+    - String type
+    - String email
+    - int currentPosition
+    - List<String> emails
+    - List<Profile> contacts
+    + <<Create>> LinkedInIterator(LinkedIn, String, String)
+    - void lazyLoad()
+    + boolean hasNext()
+    + Profile getNext()
+    + void reset()
+}
+
+refactoring_guru.iterator.example.Demo ..> refactoring_guru.iterator.example.iterators.ProfileIterator : uses
+refactoring_guru.iterator.example.Demo ..> refactoring_guru.iterator.example.social_networks.SocialNetwork : uses
+refactoring_guru.iterator.example.Demo ..> refactoring_guru.iterator.example.spammer.SocialSpammer
+refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.Facebook
+refactoring_guru.iterator.example.social_networks.SocialNetwork <|.. refactoring_guru.iterator.example.social_networks.LinkedIn
+refactoring_guru.iterator.example.iterators.ProfileIterator <|.. refactoring_guru.iterator.example.iterators.FacebookIterator
+refactoring_guru.iterator.example.iterators.ProfileIterator <|.. refactoring_guru.iterator.example.iterators.LinkedInIterator
+refactoring_guru.iterator.example.social_networks.Facebook *-- refactoring_guru.iterator.example.profile.Profile : contains
+refactoring_guru.iterator.example.social_networks.LinkedIn *-- refactoring_guru.iterator.example.profile.Profile : contains
+refactoring_guru.iterator.example.spammer.SocialSpammer::iterator o-- refactoring_guru.iterator.example.iterators.ProfileIterator : uses
+refactoring_guru.iterator.example.spammer.SocialSpammer::network o-- refactoring_guru.iterator.example.social_networks.SocialNetwork : uses
+
+@enduml

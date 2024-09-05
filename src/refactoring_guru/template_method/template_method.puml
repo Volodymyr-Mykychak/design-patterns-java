@@ -1,0 +1,76 @@
+@startuml
+class refactoring_guru.template_method.example.networks.Facebook {
++ <<Create>> Facebook(String,String)
++ boolean logIn(String,String)
++ boolean sendData(byte[])
++ void logOut()
+- void simulateNetworkLatency()
+}
+note top of refactoring_guru.template_method.example.networks.Facebook
+
+ * EN: Class of social network
+ *
+ * RU: Класс социальной сети.
+ 
+end note
+
+
+class refactoring_guru.template_method.example.Demo {
++ {static} void main(String[])
+}
+note top of refactoring_guru.template_method.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+
+class refactoring_guru.template_method.example.networks.Twitter {
++ <<Create>> Twitter(String,String)
++ boolean logIn(String,String)
++ boolean sendData(byte[])
++ void logOut()
+- void simulateNetworkLatency()
+}
+note top of refactoring_guru.template_method.example.networks.Twitter
+
+ * EN: Class of social network
+ *
+ * RU: Класс социальной сети.
+ 
+end note
+
+
+abstract class refactoring_guru.template_method.example.networks.Network {
+~ String userName
+~ String password
+~ <<Create>> Network()
++ boolean post(String)
+~ {abstract}boolean logIn(String,String)
+~ {abstract}boolean sendData(byte[])
+~ {abstract}void logOut()
+}
+note top of refactoring_guru.template_method.example.networks.Network
+
+ * EN: Base class of social network.
+ *
+ * RU: Базовый класс социальной сети.
+ 
+end note
+
+
+note left of refactoring_guru.template_method.example.networks.Network::post(String)
+
+     * EN: Publish the data to whatever network.
+     *
+     * RU: Публикация данных в любой сети.
+     
+end note
+
+
+
+refactoring_guru.template_method.example.networks.Network <|-- refactoring_guru.template_method.example.networks.Facebook
+refactoring_guru.template_method.example.networks.Network <|-- refactoring_guru.template_method.example.networks.Twitter
+@enduml

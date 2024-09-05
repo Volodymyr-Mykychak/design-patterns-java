@@ -1,0 +1,53 @@
+@startuml
+class refactoring_guru.decorator.example.decorators.EncryptionDecorator {
++ <<Create>> EncryptionDecorator(DataSource)
++ void writeData(String)
++ String readData()
+- String encode(String)
+- String decode(String)
+}
+
+class refactoring_guru.decorator.example.decorators.CompressionDecorator {
+- int compLevel
++ <<Create>> CompressionDecorator(DataSource)
++ int getCompressionLevel()
++ void setCompressionLevel(int)
++ void writeData(String)
++ String readData()
+- String compress(String)
+- String decompress(String)
+}
+
+
+abstract class refactoring_guru.decorator.example.decorators.DataSourceDecorator {
+- DataSource wrappee
+~ <<Create>> DataSourceDecorator(DataSource)
++ void writeData(String)
++ String readData()
+}
+
+
+interface refactoring_guru.decorator.example.decorators.DataSource {
+~ void writeData(String)
+~ String readData()
+}
+
+class refactoring_guru.decorator.example.decorators.FileDataSource {
+- String name
++ <<Create>> FileDataSource(String)
++ void writeData(String)
++ String readData()
+}
+
+
+class refactoring_guru.decorator.example.Demo {
++ {static} void main(String[])
+}
+
+
+
+refactoring_guru.decorator.example.decorators.DataSourceDecorator <|-- refactoring_guru.decorator.example.decorators.EncryptionDecorator
+refactoring_guru.decorator.example.decorators.DataSourceDecorator <|-- refactoring_guru.decorator.example.decorators.CompressionDecorator
+refactoring_guru.decorator.example.decorators.DataSource <|.. refactoring_guru.decorator.example.decorators.DataSourceDecorator
+refactoring_guru.decorator.example.decorators.DataSource <|.. refactoring_guru.decorator.example.decorators.FileDataSource
+@enduml

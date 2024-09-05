@@ -1,0 +1,283 @@
+@startuml
+class refactoring_guru.mediator.example.mediator.Note {
+- String name
+- String text
++ <<Create>> Note()
++ void setName(String)
++ void setText(String)
++ String getName()
++ String getText()
++ String toString()
+}
+note top of refactoring_guru.mediator.example.mediator.Note
+
+ * EN: Note class.
+ *
+ * RU: Класс заметок.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.Filter {
+- Mediator mediator
+- ListModel listModel
++ <<Create>> Filter()
++ void setMediator(Mediator)
+# void processComponentKeyEvent(KeyEvent)
++ void setList(ListModel)
+- void searchElements(String)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.Filter
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.Title {
+- Mediator mediator
++ void setMediator(Mediator)
+# void processComponentKeyEvent(KeyEvent)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.Title
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.DeleteButton {
+- Mediator mediator
++ <<Create>> DeleteButton()
++ void setMediator(Mediator)
+# void fireActionPerformed(ActionEvent)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.DeleteButton
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.List {
+- Mediator mediator
+- DefaultListModel LIST_MODEL
++ <<Create>> List(DefaultListModel)
++ void setMediator(Mediator)
++ void addElement(Note)
++ void deleteElement()
++ Note getCurrentElement()
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.List
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.List$Hide {
+- List list
+~ <<Create>> Hide(List)
++ void run()
+}
+
+
+interface refactoring_guru.mediator.example.mediator.Mediator {
+~ void addNewNote(Note)
+~ void deleteNote()
+~ void getInfoFromList(Note)
+~ void saveChanges()
+~ void markNote()
+~ void clear()
+~ void sendToFilter(ListModel)
+~ void setElementsList(ListModel)
+~ void registerComponent(Component)
+~ void hideElements(boolean)
+~ void createGUI()
+}
+note top of refactoring_guru.mediator.example.mediator.Mediator
+
+ * EN: Common mediator interface.
+ *
+ * RU: Общий интерфейс посредников.
+ 
+end note
+
+
+class refactoring_guru.mediator.example.mediator.Editor {
+- Title title
+- TextBox textBox
+- AddButton add
+- DeleteButton del
+- SaveButton save
+- List list
+- Filter filter
+- JLabel titleLabel
+- JLabel textLabel
+- JLabel label
++ void registerComponent(Component)
++ void addNewNote(Note)
++ void deleteNote()
++ void getInfoFromList(Note)
++ void saveChanges()
++ void markNote()
++ void clear()
++ void sendToFilter(ListModel)
++ void setElementsList(ListModel)
++ void hideElements(boolean)
++ void createGUI()
+}
+note top of refactoring_guru.mediator.example.mediator.Editor
+
+ * EN: Concrete mediator. All chaotic communications between concrete components
+ * have been extracted to the mediator. Now components only talk with the
+ * mediator, which knows who has to handle a request.
+ *
+ * RU: Конкретный посредник. Все связи между конкретными компонентами переехали
+ * в код посредника. Он получает извещения от своих компонентов и знает как на
+ * них реагировать.
+ 
+end note
+
+
+note left of refactoring_guru.mediator.example.mediator.Editor::registerComponent(Component)
+
+     * EN: Here the registration of components by the mediator.
+     *
+     * RU: Здесь происходит регистрация компонентов посредником.
+     
+end note
+note right of refactoring_guru.mediator.example.mediator.Editor::addNewNote(Note)
+
+     * EN: Various methods to handle requests from particular components.
+     *
+     * RU: Разнообразные методы общения с компонентами.
+     
+end note
+
+class refactoring_guru.mediator.example.components.TextBox {
+- Mediator mediator
++ void setMediator(Mediator)
+# void processComponentKeyEvent(KeyEvent)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.TextBox
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+class refactoring_guru.mediator.example.components.AddButton {
+- Mediator mediator
++ <<Create>> AddButton()
++ void setMediator(Mediator)
+# void fireActionPerformed(ActionEvent)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.AddButton
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+interface refactoring_guru.mediator.example.components.Component {
+~ void setMediator(Mediator)
+~ String getName()
+}
+note top of refactoring_guru.mediator.example.components.Component
+
+ * EN: Common component interface.
+ *
+ * RU: Общий интерфейс компонентов.
+ 
+end note
+
+
+class refactoring_guru.mediator.example.Demo {
++ {static} void main(String[])
+}
+note top of refactoring_guru.mediator.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+
+class refactoring_guru.mediator.example.components.SaveButton {
+- Mediator mediator
++ <<Create>> SaveButton()
++ void setMediator(Mediator)
+# void fireActionPerformed(ActionEvent)
++ String getName()
+}
+note top of refactoring_guru.mediator.example.components.SaveButton
+
+ * EN: Concrete components don't talk with each other. They have only one
+ * communication channel–sending requests to the mediator.
+ *
+ * RU: Конкретные компоненты никак не связаны между собой. У них есть только
+ * один канал общения – через отправку уведомлений посреднику.
+ 
+end note
+
+
+
+
+
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.Filter
+refactoring_guru.mediator.example.components.JTextField <|-- refactoring_guru.mediator.example.components.Filter
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.Title
+refactoring_guru.mediator.example.components.JTextField <|-- refactoring_guru.mediator.example.components.Title
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.DeleteButton
+refactoring_guru.mediator.example.components.JButton <|-- refactoring_guru.mediator.example.components.DeleteButton
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.List
+refactoring_guru.mediator.example.components.JList <|-- refactoring_guru.mediator.example.components.List
+refactoring_guru.mediator.example.components.List +.. refactoring_guru.mediator.example.components.List$Hide
+refactoring_guru.mediator.example.components.Runnable <|.. refactoring_guru.mediator.example.components.List$Hide
+refactoring_guru.mediator.example.mediator.Mediator <|.. refactoring_guru.mediator.example.mediator.Editor
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.TextBox
+refactoring_guru.mediator.example.components.JTextArea <|-- refactoring_guru.mediator.example.components.TextBox
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.AddButton
+refactoring_guru.mediator.example.components.JButton <|-- refactoring_guru.mediator.example.components.AddButton
+refactoring_guru.mediator.example.components.Component <|.. refactoring_guru.mediator.example.components.SaveButton
+refactoring_guru.mediator.example.components.JButton <|-- refactoring_guru.mediator.example.components.SaveButton
+@enduml

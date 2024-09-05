@@ -1,0 +1,60 @@
+@startuml
+class refactoring_guru.interpreter.example.expressions.Context {
+~ HashMap<String,Boolean> poolVariables
++ boolean lookUp(String)
++ void assign(VariableExpression,boolean)
+}
+
+
+class refactoring_guru.interpreter.example.expressions.VariableExpression {
+- String name
++ <<Create>> VariableExpression(String)
++ boolean interpret(Context)
++ String getName()
+}
+
+
+abstract class refactoring_guru.interpreter.example.expressions.AbstractExpressions {
++ {abstract}boolean interpret(Context)
+}
+
+class refactoring_guru.interpreter.example.expressions.AndExpression {
+- AbstractExpressions first
+- AbstractExpressions second
++ <<Create>> AndExpression(AbstractExpressions,AbstractExpressions)
++ boolean interpret(Context)
+}
+
+
+class refactoring_guru.interpreter.example.Demo {
+- {static} void example1()
+- {static} void example2()
++ {static} void main(String[])
+}
+note top of refactoring_guru.interpreter.example.Demo
+
+ * EN: Interpreter Design Pattern
+ * 
+ * Defines a representation for a grammar as well as a mechanism to understand and act upon the grammar.
+ * 
+ * RU: Паттерн Интерпретатор
+ * 
+ * Определяет грамматику простого языка, представляет предложения на этом языке и интерпретирует их.
+ 
+end note
+
+
+class refactoring_guru.interpreter.example.expressions.OrExpression {
+- AbstractExpressions first
+- AbstractExpressions second
++ <<Create>> OrExpression(AbstractExpressions,AbstractExpressions)
++ boolean interpret(Context)
+}
+
+
+
+
+refactoring_guru.interpreter.example.expressions.AbstractExpressions <|-- refactoring_guru.interpreter.example.expressions.VariableExpression
+refactoring_guru.interpreter.example.expressions.AbstractExpressions <|-- refactoring_guru.interpreter.example.expressions.AndExpression
+refactoring_guru.interpreter.example.expressions.AbstractExpressions <|-- refactoring_guru.interpreter.example.expressions.OrExpression
+@enduml

@@ -1,0 +1,239 @@
+@startuml
+class refactoring_guru.builder.example.cars.Car {
+- CarType carType
+- int seats
+- Engine engine
+- Transmission transmission
+- TripComputer tripComputer
+- GPSNavigator gpsNavigator
+- double fuel
++ <<Create>> Car(CarType,int,Engine,Transmission,TripComputer,GPSNavigator)
++ CarType getCarType()
++ double getFuel()
++ void setFuel(double)
++ int getSeats()
++ Engine getEngine()
++ Transmission getTransmission()
++ TripComputer getTripComputer()
++ GPSNavigator getGpsNavigator()
+}
+note top of refactoring_guru.builder.example.cars.Car
+
+ * EN: Car is a product class.
+ *
+ * RU: Автомобиль — это класс продукта.
+ 
+end note
+
+
+
+enum refactoring_guru.builder.example.components.Transmission {
++  SINGLE_SPEED
++  MANUAL
++  AUTOMATIC
++  SEMI_AUTOMATIC
+}
+note top of refactoring_guru.builder.example.components.Transmission
+
+ * EN: Just another feature of a car.
+ *
+ * RU: Одна из фишек автомобиля.
+ 
+end note
+
+
+class refactoring_guru.builder.example.components.Engine {
+- double volume
+- double mileage
+- boolean started
++ <<Create>> Engine(double,double)
++ void on()
++ void off()
++ boolean isStarted()
++ void go(double)
++ double getVolume()
++ double getMileage()
+}
+note top of refactoring_guru.builder.example.components.Engine
+
+ * EN: Just another feature of a car.
+ *
+ * RU: Одна из фишек автомобиля.
+ 
+end note
+
+
+
+class refactoring_guru.builder.example.builders.CarManualBuilder {
+- CarType type
+- int seats
+- Engine engine
+- Transmission transmission
+- TripComputer tripComputer
+- GPSNavigator gpsNavigator
++ void setCarType(CarType)
++ void setSeats(int)
++ void setEngine(Engine)
++ void setTransmission(Transmission)
++ void setTripComputer(TripComputer)
++ void setGPSNavigator(GPSNavigator)
++ Manual getResult()
+}
+note top of refactoring_guru.builder.example.builders.CarManualBuilder
+
+ * EN: Unlike other creational patterns, Builder can construct unrelated
+ * products, which don't have the common interface.
+ *
+ * In this case we build a user manual for a car, using the same steps as we
+ * built a car. This allows to produce manuals for specific car models,
+ * configured with different features.
+ *
+ * RU: В отличие от других создающих паттернов, Строители могут создавать
+ * совершенно разные продукты, не имеющие общего интерфейса.
+ *
+ * В данном случае мы производим руководство пользователя автомобиля с помощью
+ * тех же шагов, что и сами автомобили. Это устройство позволит создавать
+ * руководства под конкретные модели автомобилей, содержащие те или иные фичи.
+ 
+end note
+
+
+
+class refactoring_guru.builder.example.builders.CarBuilder {
+- CarType type
+- int seats
+- Engine engine
+- Transmission transmission
+- TripComputer tripComputer
+- GPSNavigator gpsNavigator
++ void setCarType(CarType)
++ void setSeats(int)
++ void setEngine(Engine)
++ void setTransmission(Transmission)
++ void setTripComputer(TripComputer)
++ void setGPSNavigator(GPSNavigator)
++ Car getResult()
+}
+note top of refactoring_guru.builder.example.builders.CarBuilder
+
+ * EN: Concrete builders implement steps defined in the common interface.
+ *
+ * RU: Конкретные строители реализуют шаги, объявленные в общем интерфейсе.
+ 
+end note
+
+
+
+class refactoring_guru.builder.example.components.TripComputer {
+- Car car
++ void setCar(Car)
++ void showFuelLevel()
++ void showStatus()
+}
+note top of refactoring_guru.builder.example.components.TripComputer
+
+ * EN: Just another feature of a car.
+ *
+ * RU: Одна из фишек автомобиля.
+ 
+end note
+
+
+
+enum refactoring_guru.builder.example.cars.CarType {
++  CITY_CAR
++  SPORTS_CAR
++  SUV
+}
+
+interface refactoring_guru.builder.example.builders.Builder {
+~ void setCarType(CarType)
+~ void setSeats(int)
+~ void setEngine(Engine)
+~ void setTransmission(Transmission)
+~ void setTripComputer(TripComputer)
+~ void setGPSNavigator(GPSNavigator)
+}
+note top of refactoring_guru.builder.example.builders.Builder
+
+ * EN: Builder interface defines all possible ways to configure a product.
+ *
+ * RU: Интерфейс Строителя объявляет все возможные этапы и шаги конфигурации
+ * продукта.
+ 
+end note
+
+
+class refactoring_guru.builder.example.director.Director {
++ void constructSportsCar(Builder)
++ void constructCityCar(Builder)
++ void constructSUV(Builder)
+}
+note top of refactoring_guru.builder.example.director.Director
+
+ * EN: Director defines the order of building steps. It works with a builder
+ * object through common Builder interface. Therefore it may not know what
+ * product is being built.
+ *
+ * RU: Директор знает в какой последовательности заставлять работать строителя.
+ * Он работает с ним через общий интерфейс Строителя. Из-за этого, он может не
+ * знать какой конкретно продукт сейчас строится.
+ 
+end note
+
+
+class refactoring_guru.builder.example.cars.Manual {
+- CarType carType
+- int seats
+- Engine engine
+- Transmission transmission
+- TripComputer tripComputer
+- GPSNavigator gpsNavigator
++ <<Create>> Manual(CarType,int,Engine,Transmission,TripComputer,GPSNavigator)
++ String print()
+}
+note top of refactoring_guru.builder.example.cars.Manual
+
+ * EN: Car manual is another product. Note that it does not have the same
+ * ancestor as a Car. They are not related.
+ *
+ * RU: Руководство автомобиля — это второй продукт. Заметьте, что руководство и
+ * сам автомобиль не имеют общего родительского класса. По сути, они независимы.
+ 
+end note
+
+
+
+class refactoring_guru.builder.example.components.GPSNavigator {
+- String route
++ <<Create>> GPSNavigator()
++ <<Create>> GPSNavigator(String)
++ String getRoute()
+}
+note top of refactoring_guru.builder.example.components.GPSNavigator
+
+ * EN: Just another feature of a car.
+ *
+ * RU: Одна из фишек автомобиля.
+ 
+end note
+
+
+
+class refactoring_guru.builder.example.Demo {
++ {static} void main(String[])
+}
+note top of refactoring_guru.builder.example.Demo
+
+ * EN: Demo class. Everything comes together here.
+ *
+ * RU: Демо-класс. Здесь всё сводится воедино.
+ 
+end note
+
+
+
+
+refactoring_guru.builder.example.builders.Builder <|.. refactoring_guru.builder.example.builders.CarManualBuilder
+refactoring_guru.builder.example.builders.Builder <|.. refactoring_guru.builder.example.builders.CarBuilder
+@enduml
