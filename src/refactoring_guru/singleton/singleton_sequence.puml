@@ -1,0 +1,29 @@
+@startuml
+actor Client
+
+Client -> Singleton: getInstance("FOO")
+activate Singleton
+Singleton -> Singleton: check if instance is null
+alt instance is null
+    Singleton -> Singleton: create new instance ("FOO")
+    activate Singleton
+    Singleton -> Client: return instance
+    deactivate Singleton
+else instance is not null
+    Singleton -> Client: return existing instance
+end
+deactivate Singleton
+
+Client -> Singleton: getInstance("BAR")
+activate Singleton
+Singleton -> Singleton: check if instance is null
+alt instance is null
+    Singleton -> Singleton: create new instance ("BAR")
+    activate Singleton
+    Singleton -> Client: return instance
+    deactivate Singleton
+else instance is not null
+    Singleton -> Client: return existing instance
+end
+deactivate Singleton
+@enduml
