@@ -1,0 +1,43 @@
+@startuml
+actor Client
+
+Client -> Demo : main()
+Client -> Dot : new Dot(1, 10, 55)
+Client -> Circle : new Circle(2, 23, 15, 10)
+Client -> Rectangle : new Rectangle(3, 10, 17, 20, 30)
+Client -> CompoundShape : new CompoundShape(4)
+CompoundShape -> CompoundShape : add(dot)
+CompoundShape -> CompoundShape : add(circle)
+CompoundShape -> CompoundShape : add(rectangle)
+
+Client -> CompoundShape : new CompoundShape(5)
+CompoundShape -> CompoundShape : add(dot)
+CompoundShape -> CompoundShape : add(c)
+
+Client -> Demo : export(circle, compoundShape)
+
+Demo -> XMLExportVisitor : new XMLExportVisitor()
+Demo -> XMLExportVisitor : export(circle, compoundShape)
+
+XMLExportVisitor -> Circle : accept(visitor)
+Circle -> XMLExportVisitor : visitCircle(this)
+
+XMLExportVisitor -> CompoundShape : accept(visitor)
+CompoundShape -> XMLExportVisitor : visitCompoundGraphic(this)
+
+XMLExportVisitor -> Dot : accept(visitor)
+Dot -> XMLExportVisitor : visitDot(this)
+
+XMLExportVisitor -> Circle : accept(visitor)
+Circle -> XMLExportVisitor : visitCircle(this)
+
+XMLExportVisitor -> Rectangle : accept(visitor)
+Rectangle -> XMLExportVisitor : visitRectangle(this)
+
+XMLExportVisitor -> CompoundShape : accept(visitor)
+CompoundShape -> XMLExportVisitor : visitCompoundGraphic(this)
+
+XMLExportVisitor -> Dot : accept(visitor)
+Dot -> XMLExportVisitor : visitDot(this)
+
+@enduml
