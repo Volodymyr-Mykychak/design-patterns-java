@@ -4,6 +4,13 @@ import refactoring_guru.iterator.example.iterators.ProfileIterator;
 import refactoring_guru.iterator.example.profile.Profile;
 import refactoring_guru.iterator.example.social_networks.SocialNetwork;
 
+/**
+ * EN: SocialSpammer sends spam messages to friends and coworkers
+ * by iterating over their profiles using the appropriate iterators.
+ *
+ * RU: SocialSpammer рассылает спам-сообщения друзьям и коллегам,
+ * перебирая их профили с помощью соответствующих итераторов.
+ */
 public class SocialSpammer {
     public SocialNetwork network;
     public ProfileIterator iterator;

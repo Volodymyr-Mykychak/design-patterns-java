@@ -6,6 +6,13 @@ import refactoring_guru.iterator.example.social_networks.LinkedIn;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EN: LinkedInIterator is an implementation of the iterator for iterating over LinkedIn contacts.
+ * It lazily loads the contact list from LinkedIn's API.
+ *
+ * RU: LinkedInIterator - это реализация итератора для перебора контактов LinkedIn.
+ * Он использует отложенную загрузку списка контактов через API LinkedIn.
+ */
 public class LinkedInIterator implements ProfileIterator {
     private LinkedIn linkedIn;
     private String type;
